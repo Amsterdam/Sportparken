@@ -91,7 +91,7 @@ DATABASES = {
          'PORT': '5432',
          'NAME': 'sportparken',
          'USER': 'datalab',
-         'PASSWORD': 'BlueFish#27',
+         'PASSWORD': 'scramble',
     }
 }
 
