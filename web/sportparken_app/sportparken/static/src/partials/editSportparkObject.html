@@ -1,0 +1,45 @@
+<div>
+    <!-- objecten list -->
+    <div class='col-2 masterList'>
+        <p>Velden</p>
+            <div class='itemCard'
+                 ng-repeat='obj in spomdCtrl.sportparkObjecten | orderBy:"tid" | filter:obj.objectType="veld"'
+                 ng-click='spomdCtrl.selectObject(obj)'
+                 ng-class="{itemCardActive:spomdCtrl.selectedObject.tid == obj.tid}">
+                <span class='item-title'>[[obj.name]]</span>
+                <span> [[obj.objectType]]</span>
+            </div>
+
+        <p>Panden</p>
+            <div class='itemCard' ng-repeat='obj in spomdCtrl.sportparkObjecten | filter:obj.objectType="pand"' ng-click='spomdCtrl.selectObject(obj)'>
+                <span class='item-title'>[[obj.name]]</span>
+            </div>
+    </div>
+
+	<div class='col-4'>
+<!-- 		<form>
+			<p>Naam:<input type="text" name="name" ng-model='spomdCtrl.selectedObject.name'/></p>
+	        <p>Object type:    <select ng-model="spomdCtrl.selectedObject.objectType" ng-options="item for item in spomdCtrl.objectTypeOpties"><option value="spomdCtrl.selectedObject.objectType"></option></select> </p>
+	        <hr>
+	        <p ng-click='spomdCtrl.saveChanges()'>Opslaan</p>
+		</form> -->
+            <!--placing a map to make it all a bit more clear =D-->
+        <div>
+            <sport-map></sport-map>
+        </div>
+        <div>
+            <form class="frm_spdetail" ng-show='spomdCtrl.selected'>
+                <p>Detail informatie</p>
+                <label>Naam: <input type="text" ng-model="spomdCtrl.user_objectDetail.name" /></label><br />
+                <label>Object type:    <select ng-model="spomdCtrl.user_objectDetail.objectType" ng-options="item for item in spomdCtrl.objectTypeOpties"><option value="spomdCtrl.user_objectDetail.objectType"></option></select> </label>
+                <br>
+                <br>
+                <input type="button" ng-click="spomdCtrl.reset()" value="Reset" />
+                <input type="submit" ng-click="spomdCtrl.saveChanges(spomdCtrl.user_objectDetail)" value="Save" />
+            </form>
+        </div>
+<!-- 			<pre>selected: [[spomdCtrl.selectedObject | json]]</pre>
+			<pre>master: [[spomdCtrl.master_objectDetail | json]]</pre>
+			<pre>user: [[spomdCtrl.user_objectDetail | json]]</pre> -->
+	</div>
+</div>

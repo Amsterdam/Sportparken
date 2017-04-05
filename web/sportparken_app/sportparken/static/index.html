@@ -1,0 +1,37 @@
+<html>
+    <head>
+        <base href='/'>
+        
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+	    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+        
+        <link rel="stylesheet" href="src/css/leaflet.css">
+        <link rel="stylesheet" href="src/css/custom.css">
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular-route.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular-resource.js"></script>
+        <script src="https://unpkg.com/angular-ui-router@1.0.0-rc.1/release/angular-ui-router.js"></script>
+        
+        <script src="src/js/app/sportparken.js"></script>
+        <script src="src/js/app/components/sportparken-components.js"></script>
+        <script src="src/js/app/components/huurders-components.js"></script>
+        <script src="src/js/app/components/map-component.js"></script>
+        <script src="src/js/app/services/sportparken-api.js"></script>
+        <script src="src/js/app/services/leaflet.js"></script>
+        
+    </head>
+    <body ng-app="sportparken" ng-controller='mainCtrl as main'>
+        <header>
+            <nav class="main-nav">
+                <ul>
+                    <li ui-sref="sportparken" ui-sref-active="active">Sportparken</li>
+                    <li ui-sref="huurders" ui-sref-active="active">Huurders</li>
+                </ul>
+            </nav>
+        </header>
+        <div class="content-wrapper">
+            <ui-view></ui-view>
+        </div>
+    </body>
+</html>

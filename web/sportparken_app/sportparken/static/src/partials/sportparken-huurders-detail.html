@@ -1,0 +1,51 @@
+
+<!--    list of huurders-->
+    <div class="col-2 huurderList masterList">
+<!--        <list-huurders></list-huurders>-->
+        <div class="itemCard"
+			 ng-repeat="huurder in huurderoverzichtctrl.huurdersList"
+             ng-class="{itemCardActive:huurderoverzichtctrl.selectedHuurders.indexOf(huurder) !== -1}"
+			 ng-init="huurder.contact_expanded = false;">
+
+			<div class="headerText" ng-click="huurderoverzichtctrl.toggle(huurder)">[[huurder.name]]</div>
+			<p>Velden: <span ng-repeat="obj in huurder.objecten | orderBy:'tid' | filter:obj.objectType='veld'">[[obj.name]][[$last ? '' : ', ']] </span></p>
+			<p>Panden: <span ng-repeat="obj in huurder.objecten | orderBy:'tid' | filter:obj.objectType='pand'">[[obj.name]][[$last ? '' : ', ']] </span></p>
+			<div class="subHeaderText" 
+                 ng-click="huurder.contact_expanded = !huurder.contact_expanded" 
+                 ng-class="{expandCollapse:true , contentActive:item.contact_expanded}">
+                Contact<span class="but">+</span></div>
+			<div ng-class="{dataContent:true, activeContent:huurder.contact_expanded}"> 
+                <div>
+                    <table>
+                        <tr>
+                            <td style="width: 81px">postadres:</td>
+                            <td>[[huurder.postadres]]</td>
+                        </tr>
+                    </table>
+                </div>
+                <div ng-repeat="contact in huurder.contacten">
+                    <table>
+                        <tr>
+                            <td>e-mail:</td>
+                            <td>[[contact.emailadres]]</td>
+                        </tr>
+                        <tr>
+                            <td>nummer:</td>
+                            <td>[[contact.communicatie_nummer]]</td>
+                        </tr>
+                        <tr>
+                            <td>nummer type:</td>
+                            <td>[[contact.soort_communicatie_nummer]]</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+<!--    the map object holding the huurders-->
+    <div class="col-4">
+        <sport-map selected-objects=huurderoverzichtctrl.selectedGeometry></sport-map>
+    </div>
+
+<!--	<pre class="col-4">[[huurderoverzichtctrl.huurdersList |json]]</pre>-->

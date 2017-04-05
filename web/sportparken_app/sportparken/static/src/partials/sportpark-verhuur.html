@@ -1,0 +1,27 @@
+<!-- overzicht met huurders -->
+<div class="col-2 masterList" >
+	<div ng-repeat="huurder in ohrCtrl.huurdersList | orderBy: 'name'"
+		class="itemCard"
+		 ng-class="{itemCardActive:ohrCtrl.selectedHuurder.tid == huurder.tid}">
+		<div class="headerText"
+			 ng-click="ohrCtrl.selectHuurder(huurder)">[[huurder.name]]</div>
+	</div>
+</div>
+
+<!-- overzicht met gehuurde objecten -->
+<div class="col-2 masterList" ng-show="ohrCtrl.active" >
+	<div style="padding-right: 5px; text-align: right;"><md-button md-no-ink class="md-primary" ng-click="ohrCtrl.newRelation($event)">nieuw</md-button></div>
+	<div class="itemCard"
+		 ng-repeat="relatie in ohrCtrl.relaties">
+		<div class="headerText">[[relatie.sportparkObject.name]]</div>
+		<div>
+			<table>
+				<tr><td>Type:</td><td>[[relatie.sportparkObject.objectType]]</td></tr>
+				<tr><td>Ondergrond:</td><td>[[relatie.sportparkObject.ondergrond_type]]</td></tr>
+				<tr><td>ID:</td><td>[[relatie.sportparkObject.tid]]</td></tr>
+			</table>
+		</div>
+		<div><md-button md-no-ink class="md-warn" ng-click="ohrCtrl.showConfirm($event, relatie.tid)">verwijderen</md-button></div>
+	</div>
+</div>
+

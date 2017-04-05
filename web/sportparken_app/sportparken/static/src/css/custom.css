@@ -1,0 +1,246 @@
+.main-nav .active {
+    background-color: red;
+}
+
+.main-nav {
+    background-color: #333;
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+.main-nav ul {
+    list-style-type: none;
+    background-color: #444;
+    /*  text-align: left;*/
+    padding: 0px;
+    margin: 0px;
+}
+
+.main-nav li {
+    display: inline-block;
+    font-size: 1.6em;
+    line-height: 40px;
+    height: 40px;
+    text-align: center;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.main-nav li:hover {
+    background-color: red;
+}
+
+header {
+    height: 5vh;
+    margin-left: 2%;
+    margin-right: 2%;
+}
+
+
+.sportpark-card {
+    display: inline-block;
+    height: 40px;
+    min-width: 150px;
+    width: 20%;
+    border: solid 1px #bdbdbd;
+
+}
+
+.sportpark-card:hover {
+    background-color: #f0f0f0;
+}
+
+
+.nav-sub-menu {
+    height: 30px !important;
+    margin-bottom: 20px;
+    text-align: center;
+    border-bottom: solid 0.1em #ffb4ae;
+}
+
+.nav-sub-menu ul {
+    list-style-type: none;
+    height: 30px;
+    padding: 0px;
+    margin: 0px;
+}
+
+.nav-sub-menu  li {
+    display: inline-block;
+    font-size: 1.3em;
+    line-height: 30px;
+    height: 30px;
+    text-align: center;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.nav-sub-menu-active {
+    border-bottom: solid 3px red;
+}
+
+.card-menu-container {
+    height: 20px;
+    padding-bottom: 10px;
+}
+
+
+.menu-card {
+    display: inline-block;
+    margin-right: 10px;
+    min-width: 150px;
+    width: 20%;
+    height: 40px;
+    border: solid 1px #bdbdbd;
+    background-color: #f0f0f0;
+    padding-left: 8px;
+}
+
+.menu-card:hover {
+    background-color: #bdbdbd;
+}
+
+.menu-card-active {
+    border-left: solid 5px red;
+}
+
+
+
+
+
+
+html, body {
+  height: 100%;
+}
+
+body {
+    margin: 0px;
+    font-family: verdana,arial,sans-serif;
+    font-size: 0.688em;
+}
+
+.ng-scope {
+    height: 100%;
+}
+
+.ng-isolate-scope {
+    height: 100%;
+}
+
+.content-wrapper {
+    height: 100%;
+    padding-left: 2%;
+    padding-right: 2%;
+}
+
+.col-2 {
+    float: left;
+    width: 32%;
+    margin-right: 1%;
+}
+
+.col-4 {
+    float: left;
+    width: 65%;
+    margin-right: 1%;
+}
+
+.masterList {
+    height: 80%;
+    overflow-y: auto;
+    overflow-x: hidden;
+/*    border: solid 1px #bdbdbd;*/
+    padding: 8px 2px 2px 0px;
+}
+
+.card-menu-container {
+    height: 60px;
+    padding-bottom: 10px;
+}
+
+.itemCard {
+    border: solid 1px #bdbdbd;
+    min-height: 50px;
+    height: auto;
+    margin: 0px 10px 5px 0px;
+    padding: 5px 0px 5px 5px;
+}
+
+.itemCardActive {
+    border-left: solid 5px red;
+}
+
+.frm_spdetail {
+    border: solid 1px #bdbdbd;
+}
+
+#mapId {
+/*    height: 250px;
+    height: 500px; */
+    height: 86vh;
+    background-color: aliceblue;
+}
+
+.itemCard .headerText {
+    color: red;
+}
+
+.dataContent {
+    /* makes the content hidden*/
+    height: 0px;
+    overflow:hidden;
+/*
+    -webkit-transition: .3s all ease-out;
+    transition: .3s all ease-out;
+*/
+}
+
+.huurderList {
+/*    background-color: aliceblue;*/
+}
+
+.itemCard {
+    display: block;
+    padding: 0px 0px 0px 0px;
+}
+
+.itemCard .headerText {
+    text-transform: uppercase;
+    font-size: 1.2em;
+    padding: 5px 0px 5px 2px;
+    background-color: #bdbdbd;
+}
+
+.itemCard .subHeaderText {
+    font-size: 1.0em;
+    padding: 5px 0px 5px 2px;
+    background-color: #f0f0f0;
+}
+
+
+
+.activeContent {
+    height: auto;
+/*
+    -webkit-transition: .3s all ease-out;
+    transition: .3s all ease-out;
+*/
+}
+
+.test {
+    width: 900px;
+}
+
+
+.btn_1 {
+  padding: 0px 0px 0px 0px;
+  margin: 0px 1px 0px 4px;
+  min-width: 88px;
+  border-radius: 3px;
+  font-size: 1.1em;
+  text-align: center;
+  text-transform: uppercase;
+  text-decoration:none;
+  border: none;
+  outline: none;
+}
