@@ -11,16 +11,37 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
+import sys
+
+from datapunt_generic.generic.database import get_docker_host, in_docker
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+OVERRIDE_HOST_ENV_VAR = 'DATABASE_HOST_OVERRIDE'
+OVERRIDE_PORT_ENV_VAR = 'DATABASE_PORT_OVERRIDE'
 
 insecure_secret = 'default-secret'
 SECRET_KEY = os.getenv('SECRET_KEY', insecure_secret)
 DEBUG = SECRET_KEY == insecure_secret
 
 ALLOWED_HOSTS = []
+
+
+class LocationKey:
+    local = 'local'
+    docker = 'docker'
+    override = 'override'
+
+
+def get_database_key():
+    if os.getenv(OVERRIDE_HOST_ENV_VAR):
+        return LocationKey.override
+    elif in_docker():
+        return LocationKey.docker
+
+    return LocationKey.local
 
 # Application definition
 
@@ -41,9 +62,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-
     'corsheaders.middleware.CorsMiddleware',
-
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -73,26 +92,35 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'sportparken_app.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/1.10/ref/settings/#databases
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
+DATABASE_OPTIONS = {
+    Location_key.docker: {
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': os.getenv('DB_NAME', 'sportparken'),
+        'USER': os.getenv('DB_USER', 'sportparken'),
+        'PASSWORD': os.getenv('DB_PASSWORD', 'insecure'),
+        'HOST': 'database',
+        'PORT': '5432'
+    },
+    Location_key.local: {
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': os.getenv('DB_NAME', 'sportparken'),
+        'USER': os.getenv('DB_USER', 'sportparken'),
+        'PASSWORD': os.getenv('DB_PASSWORD', 'insecure'),
+        'HOST': get_docker_host(),
+        'PORT': '5401'
+    },
+    Location_key.override: {
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': os.getenv('DB_NAME', 'sportparken'),
+        'USER': os.getenv('DB_USER', 'sportparken'),
+        'PASSWORD': os.getenv('DB_PASSWORD', 'insecure'),
+        'HOST': os.getenv(OVERRIDE_HOST_ENV_VAR),
+        'PORT': os.getenv(OVERRIDE_PORT_ENV_VAR, '5432')
+    },
+}
 
 DATABASES = {
-    'default': {
-         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-         'HOST': 'localhost',
-         'PORT': '5432',
-         'NAME': 'sportparken',
-         'USER': 'datalab',
-         'PASSWORD': 'BlueFish#27',
-    }
+    'default': DATABASE_OPTIONS[get_database_key()]
 }
 
 
