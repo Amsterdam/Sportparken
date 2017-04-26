@@ -12,7 +12,7 @@
 			sportparkGeometry: 'http://127.0.0.1:8000/api/sportparkgeometry/',
 			huurders: 'http://127.0.0.1:8000/api/huurder/',
 			relations: 'http://127.0.0.1:8000/api/relation/',
-			kvk: 'https://api.datapunt.amsterdam.nl/handelsregister/maatschappelijkeactiviteit/',
+			kvk: 'https://api.data.amsterdam.nl/handelsregister/maatschappelijkeactiviteit/',
 		}
 
 		return {
