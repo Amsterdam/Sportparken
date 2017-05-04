@@ -1,0 +1,44 @@
+<md-dialog aria-label="Toevoegen relatie" style="width: 50%;">
+	<form ng-cloak>
+		<md-toolbar>
+			<div class="md-toolbar-tools">
+				<h2>Toevoegen relatie</h2>
+			</div>
+		</md-toolbar>
+
+		<md-dialog-content>
+			<div class="md-dialog-content">
+				<form>
+					<md-input-container class="md-block">
+						<label>Object</label>
+						<md-select ng-model="dlgNew.selectedObject">
+							<md-option><em>None</em></md-option>
+							<md-option
+									ng-repeat="object in dlgNew.parent.sportparkObjectList"
+									ng-value="object"
+									style="height: 20px;">
+								[[object.name]]
+							</md-option>
+						</md-select>
+					</md-input-container>
+
+					<!--<md-input-container class="md-block">-->
+						<!--<label>Opmerkingen</label>-->
+						<!--<textarea ng-model="dlgNew.opmerkingen" md-maxlength="250" rows="5" md-select-on-focus></textarea>-->
+					<!--</md-input-container>-->
+				</form>
+
+			</div>
+		</md-dialog-content>
+
+		<md-dialog-actions layout="row">
+			<span flex></span>
+			<md-button ng-click="dlgNew.cancel()">
+				Cancel
+			</md-button>
+			<md-button ng-click="dlgNew.addNew()">
+				Toevoegen
+			</md-button>
+		</md-dialog-actions>
+	</form>
+</md-dialog>

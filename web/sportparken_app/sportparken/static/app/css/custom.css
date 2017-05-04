@@ -1,0 +1,329 @@
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp, small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary, time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+html {
+    height: 100vh;
+    overflow-y: hidden;
+}
+
+body {
+    font-size: 16px;
+    line-height: 1.25;
+    color: #000;
+    font-family: "Avenir LT W01 55 Roman", Arial, sans-serif;
+}
+
+.row {
+    width: 100%;   
+    height: auto;
+/*    display: block;*/
+}
+
+.scroll {
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.n-col-2 {
+    width: 33%;
+/*    height: 100%;*/
+    margin-bottom: 5px;
+    margin-right: 5px;
+    float: left;
+/*    display: inline-block;*/
+}
+
+.n-col-4 {
+    width: 65%;
+/*    height: 100%;*/
+    margin-bottom: 5px;
+    margin-right: 5px;
+    float: left;
+/*    display: inline-block;*/
+}
+
+.main-nav .active {
+    background-color: red;
+}
+
+.main-nav {
+    background-color: #333;
+    color: #fff;
+    margin-bottom: 5px;
+}
+
+.main-nav ul {
+    list-style-type: none;
+    background-color: #333;
+    padding: 0px;
+    margin: 0px;
+}
+
+.main-nav li {
+    display: inline-block;
+    font-size: 1.2em;
+    line-height: 30px;
+    height: 30px;
+    text-align: center;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin: 0px;
+    font-family: verdana,sans-serif;
+    font-weight: bold;
+}
+
+.main-nav li:hover {
+    background-color: red;
+    cursor: pointer;
+}
+
+.sub-nav li {
+    display: inline-block;
+    font-size: 1.0em;
+    margin-right: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    align-content: center;
+    border-bottom: 1px;
+    border-bottom-color: grey;
+    border-bottom-style: solid
+    
+}
+
+.sub-nav {
+    margin-bottom: 10px;
+}
+
+.sub-nav ul {
+    
+}
+
+.sub-nav li:hover {
+    cursor: pointer;
+    border-bottom-color: red;
+}
+
+.sub-nav .active{
+    border-bottom: 2px solid red;
+}
+
+.headerImg {
+    margin-top: 5px;
+    margin-left: 5px;
+    margin-bottom: 10px;
+}
+
+.u-row {
+    margin-bottom: 0px;
+    padding: 0px;
+    border: none;
+    width: 100%;
+    display: inline-block;
+/*    background-color: aquamarine;*/
+}
+
+.sportpark_tile {
+/*    display: block;*/
+/*    position: relative;*/
+    margin-bottom: 5px;
+    background-color: #f6f6f6;
+/*    background-position: center center;*/
+    background-size: cover;
+    border-bottom: 1px;
+    border-bottom-color: #ccc;
+    padding: 10px;
+}
+.sportpark_tile:hover {
+    cursor: pointer;
+    background-color: #f5f5f5;
+    background-color: #eee;
+}
+
+.search_input {
+    font-size: 16px;
+    line-height: 1.25;
+    width: 100%;
+    height: 30px;
+    padding-right: 40px;
+    padding-left: 10px;
+    border: 1px solid #ccc;
+    border-radius: 0;
+    outline: none;
+    background-color: #fff;
+    color: #000;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+#objectList {
+    height: 80vh;
+}
+
+#overzichtList {
+    height: 85vh;
+}
+
+#mapId {
+    width: 100%;
+    height: 84vh;
+}
+
+.object-card {
+    width: 95%;
+    margin-bottom: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
+    padding: 5px 5px 10px 5px;
+    background-color: #eee;
+}
+
+.object-card:hover {
+    cursor: pointer;
+    background-color: #ddd;
+}
+
+.objectCardActive {
+    width: auto;
+    border-left: solid 2px red;
+}
+
+.headerText {
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 1.0em;
+    text-decoration: underline;
+    margin-bottom: 5px;
+}
+
+.dataContent {
+    height: 0px;
+    overflow:hidden;
+    padding-left: 25px;
+}
+
+.activeContent {
+    height: auto;
+}
+
+#edit_map {
+    width: 100%;
+    height: 35vh;
+    background-color: aquamarine;
+}
+
+#object_data {
+    padding-top: 10px;
+    padding-left: 10px;
+    height: 50vh;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+#huurdersList {
+    height: 80vh;
+}
+
+#verhuur {
+    height: 80vh;
+}
+
+#verhuurDetail {
+    height: 79vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.s_input {
+    background-color: transparent;
+    width: 95%;
+    padding-left: 10px;
+    border: none;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 10px;
+}
+
+.s_select {
+    width: 95%;
+    background-color: transparent;
+    border: none;
+    padding-left: 10px; 
+    margin-bottom: 10px;
+    height: 25px;
+    border-bottom: 1px solid #ddd;
+    
+}
+
+.s_checkbox {
+/*    visibility: hidden;*/
+    width: 20px;
+    height: 20px;
+    background-color: transparent;
+    border: 1px solid #ddd;
+    
+}
+
+.btn_normal {
+    background-color: gainsboro;
+/*    width: 100px;*/
+    min-width: 125px;
+    border: none;
+    color: black;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: fit;
+    margin-top: 25px;
+    margin-right: 5px;
+}
+
+.btn_normal.alert{
+    background-color: #f4511e;
+    border-color: #f4511e;
+    color: white;
+    font-weight: bold;
+}
+
+#logo {
+    width: 135px;
+}
+
+.inputTable td {
+    border-bottom: 1px solid #ddd;
+}
+
+.inputTable thead td {
+    padding-bottom: 8px;
+ /*   font-weight: bold; */
+}
+
+.map_legend {
+    background-color: white;
+    line-height: 20px;
+    padding: 5px 10px 5px 10px;
+    border: 1px solid grey;
+    border-radius: 5px;
+}
+
+.map_legend i {
+    width: 18px;
+    height: 18px;
+    float: left;
+    margin-right: 8px;
+    opacity: 0.7;
+}
+
+.map_info {
+    background-color: white;
+    width: 150px;
+    line-height: 18px;
+    padding: 5px 10px 5px 10px;
+    border: 1px solid grey;
+    border-radius: 5px;
+}
