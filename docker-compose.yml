@@ -1,0 +1,18 @@
+database:
+  image: build.datapunt.amsterdam.nl:5000/atlas/postgres
+  ports:
+    - "5401:5432"
+  environment:
+    POSTGRES_PASSWORD: insecure
+    POSTGRES_DB: sportparken
+    POSTGRES_USER: sportparken
+
+web:
+  build: ./web
+  ports:
+    - "8112:8000"
+  links:
+    - database:database
+  environment:
+    DB_NAME: sportparken
+    DB_PASSWORD: insecure
