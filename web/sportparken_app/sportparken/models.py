@@ -39,6 +39,7 @@ class SportparkObject(models.Model):
 	name = models.CharField(max_length=64, null=True)
 	objectType = models.CharField(max_length=164, null=True)
 	sportpark = models.ForeignKey(Sportpark, related_name='sportparkobject_set', on_delete=models.CASCADE)
+	verhuurprijs = geo_models.FloatField(null=True)
 
 	@property
 	def ondergrond_type(self):
@@ -83,7 +84,6 @@ class Ondergrond(models.Model):
 
 class ObjectGeometry(geo_models.Model):
 	tid = geo_models.AutoField(primary_key=True)
-
 	geometry = geo_models.MultiPolygonField(null=True, srid=4326)
 	objects = geo_models.GeoManager()
 

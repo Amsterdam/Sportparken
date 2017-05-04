@@ -34,13 +34,22 @@ class HuurderListSerializer(serializers.ModelSerializer):
 
 
 class HuurderDetailSerializer(serializers.ModelSerializer):
+
+	objecten = serializers.SerializerMethodField()
+
+	def get_objecten(self, obj):
+		request = self.context.get('request')
+		spi = request.query_params.get('sp', None)
+		return SportparkObjectDetailSerializer(obj.get_sp_objecten(spi), many=True, context={'request':request}).data
+
 	class Meta:
 		model = Huurder
 		fields = [
 			'tid',
 			'name',
 			'sport',
-			'kvk'
+			'kvk',
+			'objecten'
 		]
 
 
@@ -97,6 +106,7 @@ class SportparkObjectListSerializer(serializers.ModelSerializer):
 			'name',
 			'objectType',
 			'ondergrond_type',
+			'verhuurprijs',
 			'geometry',
 			'huurders',
 		]
@@ -117,6 +127,7 @@ class SportparkObjectDetailSerializer(serializers.ModelSerializer):
 			'name',
 			'objectType',
 			'ondergrond_type',
+			'verhuurprijs',
 			'geometry',
 		]
 
@@ -155,12 +166,24 @@ class SportparkObjectGeomDetailSerializer(serializers.ModelSerializer):
 		# fields = '__all__'
 		fields = [
 			'tid',
+			'ondergrond',
 			'sportpark_object_id',
 			'sportpark_object_name',
 			'sportpark_object_type',
 			'ondergrond_type',
 			'geometry',
 		]
+
+
+class SportparkObjectGeomDetailEditSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = SportparkObjectGeometry
+		# fields = '__all__'
+		fields = [
+			'tid',
+			'ondergrond'
+		]
+
 
 class RelationListSerializer(serializers.ModelSerializer):
 	sportparkObject = serializers.SerializerMethodField()

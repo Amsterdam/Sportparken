@@ -1,8 +1,0 @@
-<div ng-hide="spmasterctrl.state.includes(spmasterctrl.stateName)">
-<!--<div>sportparken</div><div ui-sref="sportparken.sportparkendetail({id:1})" ng-click="clicked()">Sportpark1</div>-->
-    <!-- list with sportparken -->
-    <div class="sportpark-card" ng-repeat="sportpark in spmasterctrl.sportparkenList" ui-sref="sportparken.sportparkendetail.objecten({id:sportpark.tid})">
-        [[sportpark.name]]
-    </div>
-</div>
-<div ui-view></div>

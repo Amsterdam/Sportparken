@@ -1,99 +1,42 @@
 {% load staticfiles %}
-<!DOCTYPE html>
 <html>
-<head>
-	<base href='/'>
 
-	<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+	<head>
+		<base href='/'>
+		<title>Sportparken Amsterdam</title>
+		<meta charset="utf-8" />
+		<link rel="icon" href="https://www.amsterdam.nl/favicon.ico" type="image/x-icon">
 
-	<!--<link rel="stylesheet" href=src="{% static "src/css/leaflet.css" %}>-->
-	<!--<link rel="stylesheet" href=src="{% static "src/css/custom.css" %}>-->
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
 
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular.min.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular-route.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular-resource.js"></script>
-	<script src="https://unpkg.com/angular-ui-router@1.0.0-rc.1/release/angular-ui-router.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular-route.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular-resource.js"></script>
+		<script src="https://unpkg.com/angular-ui-router@1.0.0-rc.1/release/angular-ui-router.js"></script>
 
-	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular-animate.min.js"></script>
-	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular-aria.min.js"></script>
-	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular-messages.min.js"></script>
-	<script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular-animate.min.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular-aria.min.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular-messages.min.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
 
-	<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+		<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+		<link rel="stylesheet" href="{% static "app/css/leaflet.css" %}">
+		<link rel="stylesheet" href="{% static "app/css/custom.css" %}">
 
-	<link rel="stylesheet" href="{% static "src/css/leaflet.css" %}">
-	<link rel="stylesheet" href="{% static "src/css/custom.css" %}">
+		<script src="{% static "app/components/app/app.js"%}"></script>
+		<script src="{% static "app/components/header/header.js"%}"></script>
+		<script src="{% static "app/components/sportparken_detail/sub-header/subheader.js"%}"></script>
+		<script src="{% static "app/components/sportparken_detail/sportparken_detail.js"%}"></script>
+		<script src="{% static "app/components/huurders/huurders.js"%}"></script>
+		<script src="{% static "app/components/services/sportparken-api.js"%}"></script>
+		<script src="{% static "app/components/services/leaflet.js"%}"></script>
+	</head>
 
-</head>
-<body ng-app="sportparken" ng-controller='mainCtrl as main'>
-<div class="nav-wrapper">
-	<nav class="main-nav">
-		<ul>
-			<li ui-sref="sportparken" ui-sref-active="active">Sportparken</li>
-			<li ui-sref="huurders" ui-sref-active="active">Huurders</li>
-		</ul>
-	</nav>
-</div>
-<div class="content-wrapper">
-	<div ui-view></div>
-</div>
-</body>
-
-	<script type="text/javascript" src="{% static "src/js/app/sportparken.js" %}"></script>
-	<script type="text/javascript" src="{% static "src/js/app/components/sportparken-components.js" %}"></script>
-	<script type="text/javascript" src="{% static "src/js/app/components/huurders-components.js" %}"></script>
-	<script type="text/javascript" src="{% static "src/js/app/components/map-component.js" %}"></script>
-	<script type="text/javascript" src="{% static "src/js/app/services/sportparken-api.js" %}"></script>
-	<script type="text/javascript" src="{% static "src/js/app/services/leaflet.js" %}"></script>
-
+	<body ng-app="sportparken" ng-controller='mainCtrl as main'>
+		<sp-header>this is the palce for site header</sp-header>
+		<div class="content-wrapper">
+			<ui-view>this is the ui view holder</ui-view>
+		</div>
+	</body>
 </html>
-
-
-
-
-
-<!--<html>-->
-	<!--<head>-->
-	    <!--<base href='/'>-->
-	    <!--<title>Sportparken Amsterdam</title>-->
-	    <!---->
-	    <!--<meta http-equiv="X-UA-Compatible" content="IE=Edge" />-->
-	    <!--<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />-->
-
-		<!--<link rel="stylesheet" href="{% static "css/leaflet.css" %}">-->
-		<!--<link rel="stylesheet" href="{% static "css/custom.css" %}">-->
-	<!--</head>-->
-
-	<!--<body ng-app='sportparken'>-->
-		<!--&lt;!&ndash; head for amsterdam log etc &ndash;&gt;-->
-		<!--<div>-->
-			<!---->
-		<!--</div>-->
-		<!--&lt;!&ndash; main navigation &ndash;&gt;-->
-		<!--<nav class='main_nav'>-->
-			<!--<ul>-->
-				<!--<li ui-sref='home' ui-sref-active="active">Sportparken</li>-->
-				<!--<li ui-sref='huurders' ui-sref-active="active"">Huurders</li>-->
-			<!--</ul>-->
-		<!--</nav>-->
-		<!--&lt;!&ndash; main site content &ndash;&gt;-->
-		<!--<div class='main_wrapper'>-->
-			<!--<div ui-view></div>-->
-		<!--</div>-->
-	<!--</body>-->
-
-	<!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular.min.js"></script>-->
-    <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular-route.js"></script>-->
-    <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular-resource.js"></script>-->
-    <!--<script src="https://unpkg.com/angular-ui-router@1.0.0-rc.1/release/angular-ui-router.js"></script>-->
-
-	<!--&lt;!&ndash; <script type="text/javascript" src="{% static "src/sportparken_app.js" %}"></script> &ndash;&gt;-->
-	<!--<script type="text/javascript" src="{% static "src/js/sportparken_app.js" %}"></script>-->
-	<!--<script type="text/javascript" src="{% static "src/js/sportparken/sportparken-component.js" %}"></script>-->
-	<!--<script type="text/javascript" src="{% static "src/js/services/sportpark-api.service.js" %}"></script>-->
-	<!--<script type="text/javascript" src="{% static "src/js/services/leaflet.js" %}"></script>-->
-	<!--<script type="text/javascript" src="{% static "src/js/sportparken/rework_component.js" %}"></script>-->
-	<!--&lt;!&ndash; <script type="text/javascript" src="{% static "js/services/leaflet.js" %}"></script> &ndash;&gt;-->
-
-<!--</html>-->

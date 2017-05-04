@@ -26,6 +26,7 @@ from .serializers import (
         SportparkObjectGeomDetailSerializer,
         RelationPostRemoveSerializer,
         UserLoginSerializer,
+        SportparkObjectGeomDetailEditSerializer,
         )
 
 User = get_user_model()
@@ -80,9 +81,29 @@ class SportparkGeomDetailApi(generics.RetrieveAPIView):
     serializer_class = SportparkGeomDetailSerializer
 
 
-class SportparkObjectGeomDetailApi(generics.RetrieveAPIView):
-    queryset = SportparkObjectGeometry.objects.all()
-    serializer_class = SportparkObjectGeomDetailSerializer
+# class SportparkObjectGeomDetailApi(generics.RetrieveAPIView):
+#     queryset = SportparkObjectGeometry.objects.all()
+#     serializer_class = SportparkObjectGeomDetailSerializer
+
+class SportparkObjectGeomDetailApi(APIView):
+	def get_object(self, pk):
+		try:
+			return SportparkObjectGeometry.objects.get(pk=pk)
+		except SportparkObjectGeometry.DoesNotExist:
+			raise Http404
+
+	def get(self, request, pk, format=None):
+		snippet = self.get_object(pk)
+		serializer = SportparkObjectGeomDetailSerializer(snippet)
+		return Response(serializer.data)
+
+	def put(self, request, pk, format=None):
+		snippet = self.get_object(pk)
+		serializer = SportparkObjectGeomDetailSerializer(snippet, data=request.data)
+		if serializer.is_valid():
+			serializer.save()
+			return Response(serializer.data)
+		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class RelatieListApi(generics.ListCreateAPIView):
