@@ -53,7 +53,7 @@ MIDDLEWARE = [
 
 CORS_ORIGIN_ALLOW_ALL = True
 
-ROOT_URLCONF = 'sportparken_app.urls'
+ROOT_URLCONF = 'sportparken.urls'
 
 TEMPLATES = [
     {
@@ -71,7 +71,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'sportparken_app.wsgi.application'
+WSGI_APPLICATION = 'sportparken.wsgi.application'
 
 
 # Database
@@ -87,11 +87,11 @@ WSGI_APPLICATION = 'sportparken_app.wsgi.application'
 DATABASES = {
     'default': {
          'ENGINE': 'django.contrib.gis.db.backends.postgis',
-         'HOST': 'localhost',
+         'HOST': 'database',
          'PORT': '5432',
          'NAME': 'sportparken',
-         'USER': 'datalab',
-         'PASSWORD': 'BlueFish#27',
+         'USER': 'sportparken',
+         'PASSWORD': 'insecure',
     }
 }
 
@@ -133,3 +133,28 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+
+    'formatters': {
+        'console': {
+            # 'format': '%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+            'format': '%(levelname)s - %(name)s - %(message)s',
+        },
+    },
+
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'console',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+        },
+    },
+}

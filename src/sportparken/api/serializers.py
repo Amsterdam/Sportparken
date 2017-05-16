@@ -1,5 +1,7 @@
+from django.contrib.auth import get_user_model
 from rest_framework import serializers
-from ..models import (
+
+from src.sportparken.dataset.models import (
         Huurder,
         HuurderObjectRelation,
         Sportpark,
@@ -8,7 +10,6 @@ from ..models import (
         SportparkGeometry,
         )
 
-from django.contrib.auth import get_user_model
 User = get_user_model()
 
 class HuurderListSerializer(serializers.ModelSerializer):

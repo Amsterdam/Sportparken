@@ -1,11 +1,11 @@
 from django.contrib.auth import get_user_model
-from rest_framework.views import APIView
-from rest_framework.response import Response
 from django.http import Http404
-from rest_framework import status
 from rest_framework import generics
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
-from ..models import (
+from src.sportparken.dataset.models import (
         Huurder,
         HuurderObjectRelation,
         Sportpark,
@@ -13,7 +13,6 @@ from ..models import (
         SportparkObject,
         SportparkGeometry,
         )
-
 from .serializers import (
         HuurderListSerializer,
         HuurderDetailSerializer,
@@ -26,8 +25,7 @@ from .serializers import (
         SportparkObjectGeomDetailSerializer,
         RelationPostRemoveSerializer,
         UserLoginSerializer,
-        SportparkObjectGeomDetailEditSerializer,
-        )
+)
 
 User = get_user_model()
 
