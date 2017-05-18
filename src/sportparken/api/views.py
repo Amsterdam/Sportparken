@@ -5,7 +5,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from src.sportparken.dataset.models import (
+from sportparken.dataset.models import (
         Huurder,
         HuurderObjectRelation,
         Sportpark,
@@ -13,7 +13,7 @@ from src.sportparken.dataset.models import (
         SportparkObject,
         SportparkGeometry,
         )
-from .serializers import (
+from sportparken.api.serializers import (
         HuurderListSerializer,
         HuurderDetailSerializer,
         RelationListSerializer,

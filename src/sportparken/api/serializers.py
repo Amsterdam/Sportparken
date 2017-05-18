@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
-from src.sportparken.dataset.models import (
+from sportparken.dataset.models import (
         Huurder,
         HuurderObjectRelation,
         Sportpark,

@@ -35,7 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.gis',
     'rest_framework',
     'rest_framework_gis',
-    'sportparken',
+    'sportparken'
 ]
 
 MIDDLEWARE = [
@@ -88,7 +88,7 @@ DATABASES = {
     'default': {
          'ENGINE': 'django.contrib.gis.db.backends.postgis',
          'HOST': 'database',
-         'PORT': '5432',
+         'PORT': '5401',
          'NAME': 'sportparken',
          'USER': 'sportparken',
          'PASSWORD': 'insecure',
@@ -122,7 +122,7 @@ LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
 
-USE_I18N = True
+USE_I18N = False
 
 USE_L10N = True
 
