@@ -26,18 +26,23 @@
                 self.master_Huurder = response.data;
 
                 sportparkApi.getKVKData(self.master_Huurder.kvk).then( function (response){
-                    if(response.data.communicatiegegevens) {
+                    if (response.data.communicatiegegevens) {
                           self.master_Huurder.contacten = response.data.communicatiegegevens
                           }
-                          if(response.data.postadres) {
-                              self.master_Huurder.postadres= response.data.postadres.volledig_adres
+                          if (response.data.postadres) {
+                              self.master_Huurder.adrestype = "postadres";
+                              self.master_Huurder.adres = response.data.postadres.volledig_adres
+                          } else if (response.data.bezoekadres) {
+                              self.master_Huurder.adrestype = "bezoekadres";
+                              self.master_Huurder.adres = response.data.bezoekadres.volledig_adres
+            
                           } else {
-                              self.master_Huurder.postadres= "!!ONBEKEND!!"
+                              self.master_Huurder.adres = "Bezoek en Postadres niet opgegeven bij KVK."
                           }
                           self.reset()
                       }, function (response) {
                         // response gets bad result
-                        self.master_Huurder.postadres = "OPGEGEVEN KVK NIET GEVONDEN"
+                        self.master_Huurder.adres = "OPGEGEVEN KVK NIET GEVONDEN"
                       })
                 self.reset()
             })

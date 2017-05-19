@@ -12,6 +12,7 @@ from sportparken.dataset.models import (
         SportparkObjectGeometry,
         SportparkObject,
         SportparkGeometry,
+        Ondergrond
         )
 from sportparken.api.serializers import (
         HuurderListSerializer,
@@ -25,6 +26,7 @@ from sportparken.api.serializers import (
         SportparkObjectGeomDetailSerializer,
         RelationPostRemoveSerializer,
         UserLoginSerializer,
+        OndergrondListSerializer
 )
 
 User = get_user_model()
@@ -78,6 +80,9 @@ class SportparkGeomDetailApi(generics.RetrieveAPIView):
     queryset = SportparkGeometry.objects.all()
     serializer_class = SportparkGeomDetailSerializer
 
+class OndergrondListApi(generics.ListAPIView):
+    queryset = Ondergrond.objects.all()
+    serializer_class = OndergrondListSerializer
 
 # class SportparkObjectGeomDetailApi(generics.RetrieveAPIView):
 #     queryset = SportparkObjectGeometry.objects.all()

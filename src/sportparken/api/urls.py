@@ -8,6 +8,7 @@ from .views import (
     SportparkObjectDetailApi,
     SportparkGeomDetailApi,
     SportparkObjectGeomDetailApi,
+    OndergrondListApi,
     RelatieListApi,
     RelatieDetailApi,
     UserLoginApi,
@@ -44,6 +45,13 @@ urlpatterns = [
         SportparkObjectGeomDetailApi.as_view(),
         name='sportparkObjectGeom-detail'),
 
+    url(r'^ondergrond/$',
+        OndergrondListApi.as_view(),
+        name='ondergrond-list'),
+    url(r'^ondergrond/(?P<pk>[0-9]+)$',
+        OndergrondListApi.as_view(),
+        name='ondergrond-detail'),
+    
     url(r'^relation/$',
         RelatieListApi.as_view(), name='relation-list'),
     url(r'^relation/(?P<pk>[0-9]+)$',

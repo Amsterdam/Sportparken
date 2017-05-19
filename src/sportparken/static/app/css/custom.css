@@ -19,6 +19,15 @@ body {
     font-family: "Avenir LT W01 55 Roman", Arial, sans-serif;
 }
 
+label {
+    font-weight: bold;
+}
+
+ul {
+    list-style-type: square;
+    list-style-position:inside;
+    }
+
 .row {
     width: 100%;   
     height: auto;
@@ -293,7 +302,9 @@ body {
 #logo {
     width: 135px;
 }
-
+.ondergrond {
+    font-size: 11px;
+}
 .inputTable td {
     border-bottom: 1px solid #ddd;
 }

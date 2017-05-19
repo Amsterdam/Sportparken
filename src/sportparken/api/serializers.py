@@ -8,6 +8,7 @@ from sportparken.dataset.models import (
         SportparkObjectGeometry,
         SportparkObject,
         SportparkGeometry,
+        Ondergrond
         )
 
 User = get_user_model()
@@ -215,6 +216,29 @@ class RelationPostRemoveSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = HuurderObjectRelation
 		fields = '__all__'
+
+class OndergrondListSerializer(serializers.ModelSerializer):
+	url = serializers.HyperlinkedIdentityField( view_name = 'api:ondergrond-detail')
+
+	def get_ondergrond(self, obj):
+		vo = obj.ondergrond_type
+		request = self.context.get('request')
+		return OndergrondDetailSerializer(vo, many=False, context={'request':request}).data
+
+
+	def get_ondergronden(self, obj):
+		request = self.context.get('request')
+		qs = obj.get_ondergrond_set()
+		return OndergrondListSerializer(qs, many=True, context={'request':request}).data
+
+
+	class Meta:
+		model = Ondergrond
+		fields = [
+			'tid',
+			'name',
+			'url'
+		]
 
 
 class UserLoginSerializer(serializers.ModelSerializer):

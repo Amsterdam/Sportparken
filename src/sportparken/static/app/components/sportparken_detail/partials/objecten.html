@@ -7,19 +7,16 @@
             <div class="object-card"
 				 ng-repeat="veld in ooCtrl.veldenList | objectTypeFilter:'veld' | objectNameFilter:query | orderBy:'name'"
 				 ng-class="{objectCardActive:ooCtrl.selectedObject == veld}"
-				 ng-init="veld.huurders_expanded = false;">
+				>
                 <div class="headerText"
 						ng-click="ooCtrl.selectObject(veld)">[[veld.name]]</div>
-				<div><p>[[veld.ondergrond_type]]</p></div>
-				<div class="subHeaderText"
-						ng-click="veld.huurders_expanded = !veld.huurders_expanded" >
-					Huurders:  +
-				</div>
-                <div ng-class="{dataContent:true, activeContent:veld.huurders_expanded}">
+				
+				<div class="subHeaderText">
 					<ul>
 						<li ng-repeat="huurder in veld.huurders | orderBy:'name' ">[[huurder.name]]</li>
 					</ul>
 				</div>
+                <div class="ondergrond">[[veld.ondergrond_type]]</div>
             </div>
 
 			<div><p>Panden</p></div>

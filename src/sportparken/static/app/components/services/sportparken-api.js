@@ -12,6 +12,7 @@
 			sportparkGeometry: 'http://127.0.0.1:8000/api/sportparkgeometry/',
             sportparkObjectGeometry: 'http://localhost:8000/api/sportparkobjectgeometry/',
 			huurders: 'http://127.0.0.1:8000/api/huurder/',
+			ondergronden: 'http://127.0.0.1:8000/api/ondergrond/',
 			relations: 'http://127.0.0.1:8000/api/relation/',
 			kvk: 'https://api.datapunt.amsterdam.nl/handelsregister/maatschappelijkeactiviteit/',
 		}
@@ -33,6 +34,7 @@
 			updateHuurder:updateHuurder,
 			createHuurder:createHuurder,
 			deleteHuurder:deleteHuurder,
+			getOndergronden:getOndergronden,
 			getKVKData: getKVKData,
             updateGeomObjectData: updateGeomObjectData,
 		}
@@ -112,6 +114,10 @@
             var id = data.tid;
             return $http.put(instances.sportparkObjectGeometry + id, data )
         }
+
+        function getOndergronden() {
+			return $http.get(instances.ondergronden)
+		}
 	}
 
 }) ();

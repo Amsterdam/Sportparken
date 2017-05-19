@@ -22,6 +22,20 @@
 (function () {
     'use strict';
     angular.module('sportparken_detail')
+        .filter('objectOndergrondFilter', function () {
+            return function (input, ondergrond){
+                var out = []
+                angular.forEach(input, function(a) {
+                    if(a.objectOndergrond === ondergrond) { out.push(a)}
+                })
+                return out;
+            }
+        })
+}) ();
+
+(function () {
+    'use strict';
+    angular.module('sportparken_detail')
         .filter('objectNameFilter', function () {
             return function (input, sName){
                 var out = []
@@ -161,14 +175,23 @@
         self.spObjectData = {};
         self.selectedGeometry = [];
         self.veldenList = [];
-        
+        self.ondergrondList = [];
         self.user_selectedObject = {};
         self.org_selectedObject = {};
         self.user_objectData = []; // holds the geometry and onther information each object is made up off
         self.org_objectData = [];
         
+
         var poly = null
-                
+        
+        self.getOndergrondenList = function() {
+            sportparkApi.getOndergronden().then( function(response) {
+                self.ondergrondList = response.data;    
+            })
+        }
+
+        self.getOndergrondenList();
+
         self.getVeldenList = function(spid) {
             sportparkApi.getSportparkObjectenWithSportpark(spid).then( function(response) {
                 self.veldenList = response.data;    
@@ -176,6 +199,7 @@
         }
         self.getVeldenList(self.sportparkId);
         
+
         self.mapId = "edit_map"
         self.myMap = null
         
@@ -391,19 +415,29 @@
 
                 var div = L.DomUtil.create('div', 'map_legend'),
                     classes = [
-                        "Gras",
+                        ["Gras",
                         "Gravel",
-                        "Kunstgras",
-                        "Pand",
-                        "Onbekend"
-                    ]
+                        "Kunststof(gras)/Verhard/Wetra","Onbekend"],[
+                        "Aarde",
+                        "Kunststof",
+                        "Kunstgras (zand)",
+                        "Kunstgras (rubber)",
+                        "Verhard",
+                        "Wetra",
+                    
+                    ]]
 
                 // loop through our density intervals and generate a label with a colored square for each interval
                 div.innerHTML += "<p style='font-weight: bold;  margin-bottom: 4px;'>Ondergond</p>"
-                for (var i = 0; i < classes.length; i++) {
-                    div.innerHTML += '<i style="background-color:' + getColorValue(classes[i]) + ';"></i>' + classes[i] + '<br>';
+                div.innerHTML += "<p style='font-weight: bold;  margin-bottom: 4px;'>Afgeleid uit BGT</p>"
+                for (var i = 0; i < classes[0].length; i++) {
+                    div.innerHTML += '<i style="background-color:' + getColorValue(classes[0][i]) + ';"></i>' + classes[0][i] + '<br>';
                 }
-
+                div.innerHTML += "<p style='font-weight: bold;  margin-bottom: 4px;'>Specifiek</p>"
+                 for (var i = 0; i < classes[1].length; i++) {
+                    div.innerHTML += '<i style="background-color:' + getColorValue(classes[1][i]) + ';"></i>' + classes[1][i] + '<br>';
+                }
+               
                 return div;
             };
 
@@ -514,17 +548,27 @@
         }
 
         function getColorValue (value) {
-            value = value.toUpperCase()
-            if ( value === 'PAND') { return 'black'}
-            if ( value === 'GRAS') { return 'lightgreen'}
-            if ( value === 'GRAVEL') { return 'orange'}
-            if ( value === 'KUNSTGRAS') { return 'lightblue'}
-            return 'white'
+            //value = value.toUpperCase()
+
+            //if ( value === 'GRAS') { return 'lightgreen'}
+            //if ( value === 'GRAVEL') { return 'orange'}
+            //if ( value === 'KUNSTGRAS') { return 'lightblue'}
+            if ( value === 'Gras') { return 'lightgreen' }
+            if ( value === 'Gravel') { return 'orange'}
+            if ( value === 'Kunststof(gras)/Verhard/Wetra') { return 'darkgreen'}
+            if ( value === 'Aarde') { return 'brown'}
+            if ( value === 'Kunststof') { return 'lightblue'}
+            if ( value === 'Kunstgras (zand)') { return 'yellow'}
+            if ( value === 'Kunstgras (rubber)') { return 'black'}
+            if ( value === 'Verhard') { return 'black'}
+            if ( value === 'Wetra') { return 'darkgreen'}
+            return 'lightgray'
+  
         }
 
         function getColor(properties) {
             if( properties.sportpark_object_type === "pand") {
-                return getColorValue('pand')
+                return getColorValue('Verhard')
             } else {
                 return getColorValue(properties.ondergrondType)
 
@@ -707,12 +751,15 @@
                             huurder.contacten = response.data.communicatiegegevens
 
                         }
-                        if(response.data.postadres) {
-                            huurder.postadres= response.data.postadres.volledig_adres
-                        } else {
-                            huurder.postadres= "!!ONBEKEND!!"
-                        }
-                    })
+                            if (response.data.postadres) {
+                                huurder.adrestype = "postadres";
+                                huurder.adres = response.data.postadres.volledig_adres
+                            } else if (response.data.bezoekadres) {
+                                huurder.adrestype = "bezoekadres";
+                                huurder.adres = response.data.bezoekadres.volledig_adres
+                            } else {
+                                huurder.adres= "Bezoek en Postadres niet opgegeven bij KVK."
+                            }                    })
                 })
             })
         }
