@@ -173,6 +173,9 @@ class SportparkObjectGeomDetailSerializer(serializers.ModelSerializer):
 			'sportpark_object_name',
 			'sportpark_object_type',
 			'ondergrond_type',
+			'lokaalid',
+			'bagpndid',
+			'bron',
 			'geometry',
 		]
 

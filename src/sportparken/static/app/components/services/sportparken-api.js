@@ -43,6 +43,10 @@
 			return $http.get(instances.sportpark);
 		}
 
+		function getSportparkenGeometry() {
+			return $http.get(instances.sportparkGeometry)
+		}
+		
 		function getSportpark (id) {
 			return $http.get(instances.sportpark + id)
 		}

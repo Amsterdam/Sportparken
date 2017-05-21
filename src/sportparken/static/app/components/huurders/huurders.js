@@ -26,6 +26,7 @@
                 self.master_Huurder = response.data;
 
                 sportparkApi.getKVKData(self.master_Huurder.kvk).then( function (response){
+                    self.master_Huurder.statitutairenaam = response.data._display;
                     if (response.data.communicatiegegevens) {
                           self.master_Huurder.contacten = response.data.communicatiegegevens
                           }

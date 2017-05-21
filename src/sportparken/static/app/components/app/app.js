@@ -18,7 +18,8 @@
          $stateProvider
             .state( 'home', {
                  url: '/',
-                 template: '<div>home</div>'
+                 component: 'overzicht' 
+                 //,template: '<div>home</div>'
             }).state( 'huurders', {
                 url: '/huurders',
                 component: 'crudHuurders',

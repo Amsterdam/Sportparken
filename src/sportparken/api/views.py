@@ -123,7 +123,7 @@ class RelatieListApi(generics.ListCreateAPIView):
 
         if hid:
             queryset = queryset.filter(huurder__tid=hid)
-            
+
         return queryset
 
     def post(self, request, format=None):

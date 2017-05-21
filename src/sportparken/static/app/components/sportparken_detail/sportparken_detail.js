@@ -69,23 +69,181 @@
             controllerAs: 'overzichtCtrl'
         });
 
-    overzichtController.$inject = ['$scope', '$state', 'sportparkApi'];
+    overzichtController.$inject = ['$scope', '$state', 'sportparkApi','leaflet'];
 
-    function overzichtController ($scope, $state, sportparkApi) {
+    function overzichtController ($scope, $state, sportparkApi, leaflet) {
         const self = this;
         self.stateName = "sportparken.sportparkendetail"
         self.state = $state;
-        
+        self.org_objectData = [];        
         self.sportparken = []
         
         self.getSportparkenList = function () {
             sportparkApi.getSportparken().then( function( response ) { 
-                self.sportparken = response.data
+                self.sportparken = response.data;
             })
         }
         
         self.getSportparkenList();
-            
+
+        self.mapId = "total_map"
+        self.myMap = null
+        var poly = null  
+        var popup = L.popup();
+        self.map_info = L.control({position: 'topright'});      
+
+        self.initMap = function () {
+            // method ensures basic initializatin of the map
+            // only creates the map container and populates it with a tile layer and a place holder for the
+            // gejson objects that will be added later.
+            // method makes it possible to toggle show of seperale layes, this is not enabled yet
+
+            self.myMap = L.map(self.mapId)
+                .setView([52.36443980368169, 4.795318645566371], 5);
+
+            var baseLayerOptions = {
+                minZoom: 11,
+                maxZoom: 21,
+                subdomains: ['t1', 't2', 't3', 't4']
+            };
+            var baseLayers = { 'Topografie': L.tileLayer('https://{s}.datapunt.amsterdam.nl/topo_wm_zw/{z}/{x}/{y}.png', baseLayerOptions)};
+            var overlays = {
+              "Stadsdelen": L.tileLayer.wms('https://map.datapunt.amsterdam.nl/maps/gebieden', 
+                              { layers: 'stadsdeel,stadsdeel_label',
+                                format: 'image/png',
+                                transparent: true
+                                }),
+              "Gebieden":   L.tileLayer.wms('https://map.datapunt.amsterdam.nl/maps/gebieden', 
+                              { layers: 'gebiedsgerichtwerken,gebiedsgerichtwerken_label',
+                                format: 'image/png',
+                                transparent: true
+                                }),
+              "Wijken":     L.tileLayer.wms('https://map.datapunt.amsterdam.nl/maps/gebieden', 
+                              { layers: 'buurtcombinatie,buurtcombinatie_label',
+                                format: 'image/png',
+                                transparent: true
+                                }),
+              "Buurten":    L.tileLayer.wms('https://map.datapunt.amsterdam.nl/maps/gebieden', 
+                              { layers: 'buurt,buurt_label',
+                                format: 'image/png',
+                                transparent: true
+                                }),
+              "Luchtfoto":    L.tileLayer.wms('https://map.datapunt.amsterdam.nl/maps/lufo', 
+                              { layers: 'lufo2016',
+                                format: 'image/png',
+                                transparent: false
+                                })
+              };   
+
+            //Load control layers 
+            L.control.layers(baseLayers,overlays).addTo(self.myMap); 
+            // Load default baselayer
+            baseLayers['Topografie'].addTo(self.myMap);
+            // Load default overlay
+            overlays['Stadsdelen'].addTo(self.myMap);
+
+            // hack to add multiple layers to the map, without loading them @ once.
+            // when we don't do this, all geoJsons becom a seperate layer. For styling that is not wanted
+            // the actual geoJsons are added later on.
+            self.jsonVar = L.geoJson(null, {
+                                        style: styleSportpark,
+                                        onEachFeature: onEachFeature
+                                        }).addTo(self.myMap)
+   
+        
+        function onEachFeature(feature, layer) {
+            layer.on( {
+                mouseover: mouseOnFeature,
+                mouseout: resetMouseOnFeature,
+                click: showPopUp
+            });
+        }
+
+        function mouseOnFeature(e) {
+            self.map_info.update(e.target.feature.properties);
+        }
+
+        function resetMouseOnFeature(e) {
+            self.map_info.update();
+        }
+
+        function showPopUp(e) {
+            popup
+                .setLatLng(e.latlng)
+                .setContent(e.target.feature.properties.sportpark_object_name)
+                .openOn(self.myMap);
+        }
+
+        function styleSportpark(feature) {
+            return {
+                fillColor: 'blue',
+                fillOpacity: 0.5,
+                color: 'darkblue',
+                weight: 0.8
+            }
+        }
+
+            self.map_info.onAdd = function (map) {
+                    this._div = L.DomUtil.create('div', 'map_info'); // create a div with a map_class "info"
+                    this.update();
+                    return this._div;
+                }
+
+            self.map_info.update = function (obj) {
+                this._div.innerHTML = 
+                    (obj ?
+                        '<b>' + obj.sportpark_object_name 
+                        : 'Muis over een object <br> <br>');
+            };
+
+            self.map_info.addTo(self.myMap);
+    }
+
+    self.initMap()
+
+
+
+//        self.sportparkData = {}
+        self.getSportparkenData = function(){
+            sportparkApi.getSportparken().then(function(response){
+                self.spObjectData = response.data
+                for (var i = 0; i < self.spObjectData.length; i++) {
+                    sportparkApi.getFromUrl(self.spObjectData[i].url).then( function (response) {
+                                 addSportparkLayer(response.data)      
+        
+                    })
+                }; 
+            })
+
+        }
+
+        self.getSportparkenData();
+
+        function addSportparkLayer(obj){
+            var i = 0;
+            while( i < obj.geometry.length ) {
+                sportparkApi.getFromUrl(obj.geometry[i].url).then(function(response){
+                    self.org_objectData.push(response.data)
+                        var enhanchedGeoJson =
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "sportpark_object_name": obj.name,
+                                "sportpark_object_id": obj.tid
+                            },
+                            "geometry": response.data.geometry
+                        }
+                        self.jsonVar.addData(enhanchedGeoJson);
+                        self.myMap.fitBounds(self.jsonVar.getBounds());
+                        console.log(enhanchedGeoJson) 
+                        // runnning this method to store the data in a user array, where the user can edit the data
+                        //self.reset_data()
+                })
+                i ++ 
+            }
+
+        } 
+  
     }
 })();
 
@@ -372,10 +530,58 @@
             self.myMap = L.map(self.id)
                 .setView([52.36443980368169, 4.795318645566371], 5);
 
-            L.tileLayer('http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png', {
-                        maxZoom: 18,
-                        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-            }).addTo(self.myMap);
+           // L.tileLayer('http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png', {
+           //             maxZoom: 18,
+           //             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+           // }).addTo(self.myMap);
+
+            var baseLayerOptions = {
+                minZoom: 11,
+                maxZoom: 21,
+                subdomains: ['t1', 't2', 't3', 't4']
+            };
+            var baseLayers = { 'Topografie': L.tileLayer('https://{s}.datapunt.amsterdam.nl/topo_wm_zw/{z}/{x}/{y}.png', baseLayerOptions),
+                               'Openstreetmap': L.tileLayer('http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png', {
+                                 maxZoom: 18,
+                                 attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'})
+                            };
+            var overlays = {
+              "Stadsdelen": L.tileLayer.wms('https://map.datapunt.amsterdam.nl/maps/gebieden', 
+                              { layers: 'stadsdeel,stadsdeel_label',
+                                format: 'image/png',
+                                transparent: true
+                                }),
+              "Gebieden":   L.tileLayer.wms('https://map.datapunt.amsterdam.nl/maps/gebieden', 
+                              { layers: 'gebiedsgerichtwerken,gebiedsgerichtwerken_label',
+                                format: 'image/png',
+                                transparent: true
+                                }),
+              "Wijken":     L.tileLayer.wms('https://map.datapunt.amsterdam.nl/maps/gebieden', 
+                              { layers: 'buurtcombinatie,buurtcombinatie_label',
+                                format: 'image/png',
+                                transparent: true
+                                }),
+              "Buurten":    L.tileLayer.wms('https://map.datapunt.amsterdam.nl/maps/gebieden', 
+                              { layers: 'buurt,buurt_label',
+                                format: 'image/png',
+                                transparent: true
+                                }),
+              "Luchtfoto":    L.tileLayer.wms('https://map.datapunt.amsterdam.nl/maps/lufo', 
+                              { layers: 'lufo2016',
+                                format: 'image/png',
+                                transparent: false
+                                })
+              };   
+
+            //Load control layers 
+            L.control.layers(baseLayers,overlays).addTo(self.myMap); 
+            // Load default baselayer
+            baseLayers['Openstreetmap'].addTo(self.myMap);
+            // Load default overlay
+            overlays['Luchtfoto'].addTo(self.myMap);
+
+
+            overlays['Luchtfoto'].setOpacity(0.7);
 
             // hack to add multiple layers to the map, without loading them @ once.
             // when we not do this, all geoJsons becom a seperate layer. For styling that is not wanted
@@ -535,15 +741,15 @@
                 opacity: 1,
                 color: 'white',
                 dashArray: '',
-                fillOpacity: 0.7
+                fillOpacity: 0.5
             };
         };
 
         function styleSportpark(feature) {
             return {
                 fillColor: 'grey',
-                fillOpacity: 0.5,
-                color: 'white'
+                fillOpacity: 0,
+                color: 'red'
             }
         }
 
@@ -747,6 +953,7 @@
                 self.huurdersList = response.data;
                 angular.forEach(self.huurdersList, function(huurder) {
                     sportparkApi.getKVKData(huurder.kvk).then( function (response){
+                        self.huurder.statitutairenaam = response.data._display;
                         if(response.data.communicatiegegevens) {
                             huurder.contacten = response.data.communicatiegegevens
 
