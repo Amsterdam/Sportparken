@@ -20,7 +20,7 @@ insecure_secret = 'default-secret'
 SECRET_KEY = os.getenv('SECRET_KEY', insecure_secret)
 DEBUG = SECRET_KEY == insecure_secret
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
