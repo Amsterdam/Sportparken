@@ -12,7 +12,7 @@ services:
   web:
     build: ./web
     ports:
-      - "8113:8000"
+      - "8113:80"
     links:
       - database:database
     environment:
