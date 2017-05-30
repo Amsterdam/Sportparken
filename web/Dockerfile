@@ -24,7 +24,7 @@ RUN mkdir -p /static \
 	&& mkdir -p /app/data \
 	&& chown datapunt /app/data
 
-COPY static /static/
+COPY sportparken/static /static/
 
 WORKDIR /app
 
