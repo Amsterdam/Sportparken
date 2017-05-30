@@ -3,7 +3,7 @@ services:
   database:
     image: build.datapunt.amsterdam.nl:5000/atlas/postgres
     ports:
-      - "5401:5432"
+      - "5432"
     environment:
       POSTGRES_PASSWORD: insecure
       POSTGRES_DB: sportparken
@@ -12,7 +12,7 @@ services:
   web:
     build: ./web
     ports:
-      - "8113:80"
+      - "8113:8000"
     links:
       - database:database
     environment:

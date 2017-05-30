@@ -6,7 +6,7 @@ ENV CONSUL_HOST=${CONSUL_HOST:-notset}
 ENV CONSUL_PORT=${CONSUL_PORT:-8500}
 ENV DATAPUNT_API_URL=${DATAPUNT_API_URL:-https://api.data.amsterdam.nl/}
 
-EXPOSE 80
+EXPOSE 8000
 
 RUN apt-get install -y \
 		gdal-bin \
@@ -23,6 +23,8 @@ RUN mkdir -p /static \
 	&& chown datapunt /app/unzipped \
 	&& mkdir -p /app/data \
 	&& chown datapunt /app/data
+
+COPY static /static/
 
 WORKDIR /app
 

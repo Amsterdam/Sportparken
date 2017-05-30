@@ -1,0 +1,79 @@
+<!-- list of huurders -->
+<div class='n-col-2'>
+    <input type="text" class="search_input" id="query" ng-model="query" placeholder="Zoeken" autofocus/>
+    <div class='scroll' style="height: 85vh;">
+        <div class="masterList">
+            <div class='object-card'
+                 ng-repeat='huurder in hlCtrl.huurders | filter:query | orderBy:"name"'
+                 ng-click='hlCtrl.selectHuurder(huurder)'
+                 ng-class="{objectCardActive:hlCtrl.master_Huurder.tid == huurder.tid}">
+                <div class="headerText">[[huurder.name]]</div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- huurder detail form -->
+<div class='n-col-4'>
+    <div style="padding-right: 5px; text-align: right;">
+        <md-button md-no-ink class="md-primary" ng-click="hlCtrl.createNew()"  >
+            Nieuw
+        </md-button>
+    </div>
+    <md-content layout-padding ng-show="hlCtrl.newFlag || hlCtrl.selectedFlag">
+
+        <form>
+            <hr>
+            <div layout-gt-xs="row">
+                <md-input-container class="md-block" flex-gt-xs>
+                    <label>Naam:</label>
+                    <input ng-model="hlCtrl.user_Huurder.name">
+                </md-input-container>
+            </div>
+            <div layout-gt-xs="row">
+                <md-input-container class="md-block" flex-gt-xs>
+                    <label>Sport:</label>
+                    <input ng-model="hlCtrl.user_Huurder.sport">
+                </md-input-container>
+            </div>
+            <div layout-gt-xs="row">
+                <md-input-container class="md-block" flex-gt-xs>
+                    <label>KVK Nummer:</label>
+                    <input ng-model="hlCtrl.user_Huurder.kvk">
+                </md-input-container>
+            </div>
+            <div style="padding-right: 5px; text-align: right;">
+                <md-button class="md-flat md-secondary btn_1" ng-click="hlCtrl.saveChanges(hlCtrl.user_Huurder)"  >
+                    Opslaan
+                </md-button>
+                <md-button class="md-flat md-secondary btn_1" ng-click="hlCtrl.reset()"  >
+                    Reset
+                </md-button>
+                <md-button class="md-flat md-warn btn_1" ng-click="hlCtrl.showConfirm($event, hlCtrl.user_Huurder)"  >
+                    Verwijderen
+                </md-button>
+            </div>
+            <hr>
+        </form>
+
+    <div>
+        <div class="headerText">[[hlCtrl.master_Huurder.statitutairenaam]]</div>
+		<div class="n-col-2">
+       
+			<p>Adres: [[hlCtrl.master_Huurder.adres]]</p>
+            <p>Adres type: [[hlCtrl.master_Huurder.adrestype]]</p>
+		</div>
+		<div class="n-col-2">
+			<div ng-repeat="contact in hlCtrl.master_Huurder.contacten">
+				<table>
+					<tr><td>Mail:</td><td>[[contact.emailadres]]</td></tr>
+					<tr><td>Nummer:</td><td>[[contact.communicatie_nummer]]</td></tr>
+					<tr><td>Nummer type:</td><td>[[contact.soort_communicatie_nummer]]</td></tr>
+				</table>
+			</div>
+		</div>
+	</div>
+	</md-content>
+	<!--<pre>[[hlCtrl.master_Huurder | json ]]</pre>-->
+	<!--<pre>[[hlCtrl.user_Huurder | json ]]</pre>-->
+	<!--<pre>[[hlCtrl.huurders | json ]]</pre>-->
+</div>
