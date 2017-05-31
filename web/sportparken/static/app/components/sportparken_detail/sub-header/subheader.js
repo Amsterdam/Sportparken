@@ -11,7 +11,7 @@
             bindings: {
                 size: '='
             },
-            templateUrl: 'static/app/components/sportparken_detail/sub-header/subheader.html',
+            templateUrl: 'sportparken/static/app/components/sportparken_detail/sub-header/subheader.html',
             controller: subHeaderController,
             controllerAs: 'vm'
         });

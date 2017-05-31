@@ -2,7 +2,7 @@
     'use strict';
     angular.module('sportparken')
         .component( 'crudHuurders', {
-            templateUrl: 'static/app/components/huurders/crud-huurders.html',
+            templateUrl: 'sportparken/static/app/components/huurders/crud-huurders.html',
             controller: huurderCntrl,
             controllerAs: 'hlCtrl'
         });

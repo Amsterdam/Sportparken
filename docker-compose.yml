@@ -22,4 +22,4 @@ services:
       UWSGI_MODULE: "sportparken.wsgi:application"
       UWSGI_PROCESSES: 4
       UWSGI_MASTER: 1
-      UWSGI_STATIC_MAP: "/static=/static"
+      UWSGI_STATIC_MAP: "/sportparken/static=/static"

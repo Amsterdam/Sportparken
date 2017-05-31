@@ -64,7 +64,7 @@
             bindings: {
                 size: '='
             },
-            templateUrl: 'static/app/components/sportparken_detail/partials/overzicht.html',
+            templateUrl: 'sportparken/static/app/components/sportparken_detail/partials/overzicht.html',
             controller: overzichtController,
             controllerAs: 'overzichtCtrl'
         });
@@ -253,7 +253,7 @@
             bindings: {
                 size: '='
             },
-            templateUrl: 'static/app/components/sportparken_detail/page.html',
+            templateUrl: 'sportparken/static/app/components/sportparken_detail/page.html',
             controller: pageController,
             controllerAs: 'vmaster'
         });
@@ -274,7 +274,7 @@
             bindings: {
                 size: '='
             },
-            templateUrl: 'static/app/components/sportparken_detail/partials/objecten.html',
+            templateUrl: 'sportparken/static/app/components/sportparken_detail/partials/objecten.html',
             controller: objectOverzichtController,
             controllerAs: 'ooCtrl'
         });
@@ -319,7 +319,7 @@
     
     angular.module('sportparken_detail')
         .component('editObject', {
-            templateUrl: 'static/app/components/sportparken_detail/partials/object_informatie.html',
+            templateUrl: 'sportparken/static/app/components/sportparken_detail/partials/object_informatie.html',
             controller: objectEditController,
             controllerAs: 'oeCtrl'
     });
@@ -804,7 +804,7 @@
 
     angular.module('sportparken_detail')
         .component('objectHuurderRelatie', {
-            templateUrl: 'static/app/components/sportparken_detail/partials/verhuur.html',
+            templateUrl: 'sportparken/static/app/components/sportparken_detail/partials/verhuur.html',
             controller: objectHuurderRelatieCtrl,
             controllerAs: 'ohrCtrl'
     });
@@ -870,7 +870,7 @@
             $mdDialog.show({
                 controller: newRelationCtrl,
                 controllerAs: 'dlgNew',
-                templateUrl: 'static/app/components/sportparken_detail/partials/dlg_nw_relatie.html',
+                templateUrl: 'sportparken/static/app/components/sportparken_detail/partials/dlg_nw_relatie.html',
 //                template: '<div>Dialog</div><pre>[[dlgNew.text]]</pre><pre>id: [[dlgNew.parent.selectedHuurder | json]]</pre>',
                 parent: angular.element(document.body),
                 targetEvent: ev,
@@ -933,7 +933,7 @@
     angular.module("sportparken_detail")
         .component("huurderOverzicht", {
 //            template: '<div>naam: [[huurderoverzichtctrl.title]] <br> sportparkId: [[huurderoverzichtctrl.id]]</div>',
-            templateUrl: 'static/app/components/sportparken_detail/partials/huurders.html',
+            templateUrl: 'sportparken/static/app/components/sportparken_detail/partials/huurders.html',
             controller: huurderOverzichtCtrl, 
             controllerAs: 'huurderoverzichtctrl'
     });

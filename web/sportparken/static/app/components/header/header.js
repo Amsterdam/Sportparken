@@ -11,7 +11,7 @@
             bindings: {
                 size: '='
             },
-            templateUrl: 'static/app/components/header/header.html',
+            templateUrl: 'sportparken/static/app/components/header/header.html',
             controller: siteHeaderController,
             controllerAs: 'vm'
         });
