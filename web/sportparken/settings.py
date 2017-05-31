@@ -132,8 +132,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
-STATIC_URL = '/sportparken/app/static/'
-#STATIC_ROOT = os.path.abspath(os.path.join(BASE_DIR, 'app', 'static'))
+STATIC_URL = '/static/'
 
 LOGGING = {
     'version': 1,
