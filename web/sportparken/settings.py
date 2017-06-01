@@ -12,6 +12,13 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 
 import os
 
+from sportparken.settings_databases import Location_key,\
+    get_docker_host,\
+    get_database_key,\
+    OVERRIDE_HOST_ENV_VAR,\
+    OVERRIDE_PORT_ENV_VAR
+
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -84,15 +91,35 @@ WSGI_APPLICATION = 'sportparken.wsgi.application'
 #     }
 # }
 
+DATABASE_OPTIONS = {
+    Location_key.docker: {
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': os.getenv('DATABASE_NAME', 'sportparken'),
+        'USER': os.getenv('DATABASE_USER', 'sportparken'),
+        'PASSWORD': os.getenv('DATABASE_PASSWORD', 'insecure'),
+        'HOST': 'database',
+        'PORT': '5432'
+    },
+    Location_key.local: {
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': os.getenv('DATABASE_NAME', 'sportparken'),
+        'USER': os.getenv('DATABASE_USER', 'sportparken'),
+        'PASSWORD': os.getenv('DATABASE_PASSWORD', 'insecure'),
+        'HOST': get_docker_host(),
+        'PORT': '5401'
+    },
+    Location_key.override: {
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': os.getenv('DATABASE_NAME', 'sportparken'),
+        'USER': os.getenv('DATABASE_USER', 'sportparken'),
+        'PASSWORD': os.getenv('DATABASE_PASSWORD', 'insecure'),
+        'HOST': os.getenv(OVERRIDE_HOST_ENV_VAR),
+        'PORT': os.getenv(OVERRIDE_PORT_ENV_VAR, '5432')
+    },
+}
+
 DATABASES = {
-    'default': {
-         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-         'HOST': 'database',
-         'PORT': '5401',
-         'NAME': 'sportparken',
-         'USER': 'sportparken',
-         'PASSWORD': 'insecure',
-    }
+    'default': DATABASE_OPTIONS[get_database_key()]
 }
 
 

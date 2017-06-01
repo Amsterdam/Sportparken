@@ -8,13 +8,7 @@ ENV DATAPUNT_API_URL=${DATAPUNT_API_URL:-https://api.data.amsterdam.nl/}
 
 EXPOSE 8000
 
-RUN apt-get install -y \
-		gdal-bin \
-		libgeos-dev \
-		netcat \
-	&& apt-get clean \
-	&& rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
-	&& adduser --system datapunt \
+RUN adduser --system datapunt \
 	&& mkdir -p /static \
 	&& chown datapunt /static \
 	&& pip install uwsgi
