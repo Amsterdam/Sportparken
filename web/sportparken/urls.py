@@ -18,8 +18,8 @@ from django.views.generic import TemplateView
 from django.contrib import admin
 
 urlpatterns = [
-    url(r'^sportparken/admin/', admin.site.urls),
-    url(r'^sportparken/api/', include('sportparken.api.urls', namespace='api')),
-    url(r'^sportparken/web/', TemplateView.as_view(template_name='sportparken/index.html'),
+    url(r'^admin/', admin.site.urls),
+    url(r'^api/', include('sportparken.api.urls', namespace='api')),
+    url(r'^$', TemplateView.as_view(template_name='sportparken/index.html'),
         name='home'),
 ]

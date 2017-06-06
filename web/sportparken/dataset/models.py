@@ -38,6 +38,7 @@ class Huurder(models.Model):
 
 class SportparkObject(models.Model):
     tid = models.AutoField(primary_key=True)
+    uid = models.CharField(max_length=20, null=True)
     name = models.CharField(max_length=64, null=True)
     objectType = models.CharField(max_length=164, null=True)
     sportpark = models.ForeignKey(Sportpark,

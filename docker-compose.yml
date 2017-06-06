@@ -1,14 +1,13 @@
 version: '3'
 services:
   database:
-    image: build.datapunt.amsterdam.nl:5000/atlas/postgres
+    build: ./database
     ports:
       - "5401:5432"
     environment:
       POSTGRES_DB: sportparken
       POSTGRES_USER: sportparken
       POSTGRES_PASSWORD: insecure
-
   web:
     build: ./web
     ports:

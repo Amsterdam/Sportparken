@@ -103,6 +103,7 @@ class SportparkObjectListSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = SportparkObject
 		fields = [
+			'uid',
 			'url',
 			'tid',
 			'name',
