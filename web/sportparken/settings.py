@@ -92,7 +92,7 @@ WSGI_APPLICATION = 'sportparken.wsgi.application'
 # }
 
 DATABASE_OPTIONS = {
-    Location_key.docker: {
+    LocationKey.docker: {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': os.getenv('DATABASE_NAME', 'sportparken'),
         'USER': os.getenv('DATABASE_USER', 'sportparken'),
@@ -100,7 +100,7 @@ DATABASE_OPTIONS = {
         'HOST': 'database',
         'PORT': '5432'
     },
-    Location_key.local: {
+    LocationKey.local: {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': os.getenv('DATABASE_NAME', 'sportparken'),
         'USER': os.getenv('DATABASE_USER', 'sportparken'),
@@ -108,7 +108,7 @@ DATABASE_OPTIONS = {
         'HOST': get_docker_host(),
         'PORT': '5401'
     },
-    Location_key.override: {
+    LocationKey.override: {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': os.getenv('DATABASE_NAME', 'sportparken'),
         'USER': os.getenv('DATABASE_USER', 'sportparken'),
