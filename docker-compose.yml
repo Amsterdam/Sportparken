@@ -5,9 +5,9 @@ services:
     ports:
       - "5401:5432"
     environment:
-      DATABASE_NAME: sportparken
-      DATABASE_USER: sportparken
-      DATABASE_PASSWORD: insecure
+      POSTGRES_DB: sportparken
+      POSTGRES_USER: sportparken
+      POSTGRES_PASSWORD: insecure
 
   web:
     build: ./web
