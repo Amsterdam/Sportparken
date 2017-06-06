@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 
 import os
 
-from sportparken.settings_databases import Location_key,\
+from sportparken.settings_databases import LocationKey,\
     get_docker_host,\
     get_database_key,\
     OVERRIDE_HOST_ENV_VAR,\
