@@ -4,21 +4,18 @@ services:
     image: build.datapunt.amsterdam.nl:5000/atlas/postgres
     environment:
       POSTGRES_PASSWORD: insecure
-      POSTGRES_USER: monumenten
+      POSTGRES_USER: sportparken
 
   importer:
-    image: build.datapunt.amsterdam.nl:5000/datapunt/monumenten:${ENVIRONMENT}
+    image: build.datapunt.amsterdam.nl:5000/datapunt/sportparken:${ENVIRONMENT}
     links:
       - database
     environment:
-      CULTUUR_OBJECTSTORE_PASSWORD: ${CULTUUR_OBJECTSTORE_PASSWORD}
-      DATABASE_NAME: monumenten
-      DATABASE_USER: monumenten
+      DATABASE_NAME: sportparken
+      DATABASE_USER: sportparken
       DATABASE_PASSWORD: insecure
       DATABASE_HOST_OVERRIDE: database
       DATABASE_PORT_OVERRIDE: 5432
-      DATAPUNT_API_URL: ${DATAPUNT_API_URL:-https://api.data.amsterdam.nl/}
-
     command: >
       bash -c "/app/.jenkins/docker-wait.sh \
               && python manage.py migrate \
@@ -34,7 +31,7 @@ services:
     volumes:
       - ./backups:/tmp/backups
     command: >
-      bash -c "echo db:5432:monumenten:monumenten:insecure > ~/.pgpass \
+      bash -c "echo db:5432:sportparken:sportparken:insecure > ~/.pgpass \
               && chmod 600 ~/.pgpass \
               && pg_dump --clean \
                           -Fc \
@@ -42,6 +39,6 @@ services:
                           -t geo*  \
                           -t django_migrations  \
                           -T auth*    \
-                          -U monumenten \
+                          -U sportparken \
                           -h db -p 5432 \
-                          monumenten > /tmp/backups/database.dump"
+                          sportparken > /tmp/backups/database.dump"

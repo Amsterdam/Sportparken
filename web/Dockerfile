@@ -26,7 +26,7 @@ COPY . /app/
 RUN pip install --no-cache-dir -r requirements.txt
 USER datapunt
 
-RUN export DJANGO_SETTINGS_MODULE=monumenten.settings
+RUN export DJANGO_SETTINGS_MODULE=sportparken.settings
 
 CMD uwsgi
 

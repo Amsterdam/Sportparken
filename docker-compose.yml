@@ -14,7 +14,7 @@ services:
     ports:
       - "8113:8000"
     links:
-      - database:database
+      - database
     environment:
       DATABASE_NAME: sportparken
       DATABASE_USER: sportparken
