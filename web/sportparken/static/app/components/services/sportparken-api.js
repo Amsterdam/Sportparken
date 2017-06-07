@@ -66,7 +66,7 @@
 		}
 
 		function getHuurders() {
-			return $http.get(instances.huurders)
+			return $http.get(instances.huurders);
 		}
 
 		function getHuurder(id) {
@@ -91,7 +91,7 @@
 		}
 
 		function saveSportparkObjectChanges(data) {
-			var id = data.tid
+			var id = data.tid;
 			return $http.put(instances.sportparkObject + id, data);
 		}
 
@@ -122,7 +122,7 @@
         }
 
         function getOndergronden() {
-			return $http.get(instances.ondergronden)
+			return $http.get(instances.ondergronden);
 		}
 	}
 
