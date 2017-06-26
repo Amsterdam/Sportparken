@@ -16,7 +16,7 @@
 			huurders: baseUrl+'/api/huurder/',
 			ondergronden: baseUrl+'/api/ondergrond/',
 			relations: baseUrl+'/api/relation/',
-			kvk: 'https://api.datapunt.amsterdam.nl/handelsregister/maatschappelijkeactiviteit/',
+			kvk: 'https://api.data.amsterdam.nl/handelsregister/maatschappelijkeactiviteit/',
 		};
 
 		return {
