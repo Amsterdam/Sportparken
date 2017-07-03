@@ -25,11 +25,11 @@
                 self.selectedFlag = true;
                 self.master_Huurder = response.data;
                 if (response.data.bezoek_adres) {
-                    self.master_Huurder.adrestype = "bezoekadres";
-                    self.master_Huurder.adres = response.data.bezoek_adres
-                } else if (self.master_Huurder.post_adres) {
                     self.master_Huurder.adrestype = "postadres";
                     self.master_Huurder.adres = response.data.post_adres
+                } else if (self.master_Huurder.post_adres) {
+                    self.master_Huurder.adrestype = "bezoekadres";
+                    self.master_Huurder.adres = response.data.bezoek_adres
                 } else {
                     self.master_Huurder.adres = "Bezoek en Postadres niet opgegeven bij KVK."
                 }
