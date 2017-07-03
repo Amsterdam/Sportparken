@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.postgres.fields import JSONField
 from django.contrib.gis.db import models as geo_models
 
 # Create your models here.
@@ -20,6 +21,8 @@ class Huurder(models.Model):
     name = models.CharField(max_length=255, null=True)
     kvk = models.CharField(max_length=10, null=True)
     sport = models.CharField(max_length=64, null=True)
+    bezoek_adres = models.CharField(max_length=255, null=True)
+    post_adres = models.CharField(max_length=255, null=True)
 
     def get_sp_objecten(self, spid=None):
         qs = SportparkObject.objects.filter(ho_set__huurder__tid=self.tid)

@@ -31,7 +31,9 @@ class HuurderListSerializer(serializers.ModelSerializer):
 			'kvk',
 			'name',
 			'sport',
-			'objecten'
+			'objecten',
+			'bezoek_adres',
+			'post_adres'
 		]
 
 
@@ -51,7 +53,9 @@ class HuurderDetailSerializer(serializers.ModelSerializer):
 			'name',
 			'sport',
 			'kvk',
-			'objecten'
+			'objecten',
+			'bezoek_adres',
+			'post_adres'
 		]
 
 

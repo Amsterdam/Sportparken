@@ -24,27 +24,15 @@
                 self.newFlag = false;
                 self.selectedFlag = true;
                 self.master_Huurder = response.data;
-
-                sportparkApi.getKVKData(self.master_Huurder.kvk).then( function (response){
-                    self.master_Huurder.statitutairenaam = response.data._display;
-                    if (response.data.communicatiegegevens) {
-                          self.master_Huurder.contacten = response.data.communicatiegegevens
-                          }
-                          if (response.data.postadres) {
-                              self.master_Huurder.adrestype = "postadres";
-                              self.master_Huurder.adres = response.data.postadres.volledig_adres
-                          } else if (response.data.bezoekadres) {
-                              self.master_Huurder.adrestype = "bezoekadres";
-                              self.master_Huurder.adres = response.data.bezoekadres.volledig_adres
-            
-                          } else {
-                              self.master_Huurder.adres = "Bezoek en Postadres niet opgegeven bij KVK."
-                          }
-                          self.reset()
-                      }, function (response) {
-                        // response gets bad result
-                        self.master_Huurder.adres = "OPGEGEVEN KVK NIET GEVONDEN"
-                      })
+                if (response.data.bezoek_adres) {
+                    self.master_Huurder.adrestype = "bezoekadres";
+                    self.master_Huurder.adres = response.data.bezoek_adres
+                } else if (self.master_Huurder.post_adres) {
+                    self.master_Huurder.adrestype = "postadres";
+                    self.master_Huurder.adres = response.data.post_adres
+                } else {
+                    self.master_Huurder.adres = "Bezoek en Postadres niet opgegeven bij KVK."
+                }
                 self.reset()
             })
         }
