@@ -23,9 +23,9 @@ class Migration(migrations.Migration):
             name='post_adres',
             field=django.contrib.postgres.fields.jsonb.JSONField(null=True),
         ),
-        migrations.AddField(
-            model_name='sportparkobject',
-            name='uid',
-            field=models.CharField(max_length=20, null=True),
-        ),
+        # migrations.AddField(
+        #     model_name='sportparkobject',
+        #     name='uid',
+        #     field=models.CharField(max_length=20, null=True),
+        # ),
     ]
