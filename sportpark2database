@@ -1,0 +1,52 @@
+""" This script writes the geometry, name and source of sport parks from a .json file to a database.
+For use settings if databased must be specified.
+Author: Niki Niëns"""
+
+import json
+import requests
+import psycopg2
+from shapely.geometry import asShape
+
+def read_json():
+    
+   return json.load(open('C:\OIS-500VerhuurSportvelden\data\sportterreinen_apr.json'))
+
+if __name__ == "__main__":
+   data = read_json()
+   result = []
+
+   sql_create = "DROP TABLE if exists sportparken.park; " \
+                "CREATE table sportparken.park (" \
+                "tid INTEGER NOT NULL PRIMARY KEY,"\
+                "geom geometry(MULTIPOLYGON,28992), " \
+                "naam TEXT, " \
+                "bron TEXT)"
+
+	# Write settings of database here
+   conn = psycopg2.connect("dbname='' user='' host='' port = '' password=''")
+   cur = conn.cursor()
+
+   cur.execute(sql_create)
+
+   for i, sp in enumerate(data["sportterreinen"]):
+      tid = i
+      naam = sp["naam"]
+      uri = sp["uri"]
+      geom = requests.get(sp["uri"]).json()["geometrie"]
+      a = asShape(geom)
+      wkt = asShape(geom).to_wkt()
+      result.append([tid, naam, uri, wkt,])
+
+      aresult = 'INSERT INTO sportparken.park(tid, geom, naam, bron) ' \
+                 "VALUES ({}, st_geomfromtext('{}', {}), '{}', '{}')".format(tid, wkt, 28992, naam, uri)
+
+
+
+      print(aresult)
+      cur.execute(aresult)
+
+   conn.commit()
+   cur.close()
+   conn.close()
+
+## Also possible with ogr2ogr
