@@ -1,51 +1,99 @@
--- This script creates:
--- - union of relevant BGT surfaces (bgt_union)
--- - dataset of all sport fields for rent (veld_park)
--- - datasets of all buildings in the sports parks (pand_park)
--- The selection of the sport field is based on:
--- - inclusion in a sportpark
--- - overlap with field in k10_plus dataset
--- - id of missing fields (obtained via QGIS)
--- Author: Niki Niëns
+/* This script creates:
+- union of relevant BGT surfaces (bgt_union)
+- dataset of all sport fields for rent (veld_park)
+- datasets of all buildings in the sports parks (pand_park)
+The selection of the sport field is based on:
+- inclusion in a sportpark
+- overlap with field in k10_plus dataset
+- id of missing fields (obtained via QGIS)
+Author: Niki Niëns */
 
--- Union BGT bestanden met naam bronbestand in extra kolom
-drop table if exists sportparken.bgt_union;
-create table sportparken.bgt_union as
-SELECT *, 'bgt_btrn_bouwland'  as bron FROM sportparken.bgt_btrn_bouwland
-UNION ALL
-SELECT *, 'bgt_btrn_groenvoorziening' as bron FROM sportparken.bgt_btrn_groenvoorziening
-UNION ALL
-SELECT *, 'bgt_btrn_loofbos' as bron FROM sportparken.bgt_btrn_loofbos
-UNION ALL
-SELECT *, 'bgt_otrn_gesloten_verharding' as bron FROM sportparken.bgt_otrn_gesloten_verharding
-UNION ALL
-SELECT *, 'bgt_otrn_half_verhard' as bron FROM sportparken.bgt_otrn_half_verhard
-UNION ALL
-SELECT *, 'bgt_otrn_transitie' as bron FROM sportparken.bgt_otrn_transitie
-UNION ALL
-SELECT *, 'bgt_btrn_transitie' as bron FROM sportparken.bgt_btrn_transitie
-UNION ALL
-SELECT *, 'bgt_otrn_erf' as bron FROM sportparken.bgt_otrn_erf
-UNION ALL
-SELECT *, 'bgt_otrn_onverhard' as bron FROM sportparken.bgt_otrn_onverhard
-UNION ALL
-SELECT *, 'bgt_btrn_grasland_agrarisch' as bron FROM sportparken.bgt_btrn_grasland_agrarisch
+/* Create union of BGT files, with source in added column.
+Neccessary since no db format with BGT info was available. Only surfaces encountered at sport parks are used.*/
+DROP TABLE if exists sportparken.bgt_union;
+CREATE TABLE sportparken.bgt_union AS
 
--- Selectie velden obv sportparken contouren (veld_park_cont)
-drop table if exists sportparken.veld_park_cont;
-create table sportparken.veld_park_cont as
-select sportparken.bgt_union.*, sportparken.park.naam as sportpark
-from sportparken.park, sportparken.bgt_union
-where st_disjoint(bgt_union.geom,park.geom) = 'f';
+	SELECT *, 
+		'bgt_btrn_bouwland'::char(100)  AS bron 
+	FROM sportparken.bgt_btrn_bouwland
+	
+	UNION ALL
+	
+	SELECT *, 
+		'bgt_btrn_groenvoorziening'::char(100) AS bron 
+	FROM sportparken.bgt_btrn_groenvoorziening
+	
+	UNION ALL
+	
+	SELECT *,
+		'bgt_btrn_loofbos'::char(100) AS bron 
+	FROM sportparken.bgt_btrn_loofbos
+	
+	UNION ALL
+	
+	SELECT *, 
+		'bgt_otrn_gesloten_verharding'::char(100) AS bron 
+		FROM sportparken.bgt_otrn_gesloten_verharding
+		
+	UNION ALL
+	
+	SELECT *, 
+		'bgt_otrn_half_verhard'::char(100) AS bron 
+		FROM sportparken.bgt_otrn_half_verhard
+		
+	UNION ALL
+	
+	SELECT *, 
+		'bgt_otrn_transitie'::char(100) AS bron 
+		FROM sportparken.bgt_otrn_transitie
+		
+	UNION ALL
+	
+	SELECT *, 
+		'bgt_btrn_transitie'::char(100) AS bron 
+		FROM sportparken.bgt_btrn_transitie
+		
+	UNION ALL
+	
+	SELECT *, 
+		'bgt_otrn_erf'::char(100) AS bron 
+		FROM sportparken.bgt_otrn_erf
+		
+	UNION ALL
+	
+	SELECT *, 
+		'bgt_otrn_onverhard'::char(100) AS bron 
+		FROM sportparken.bgt_otrn_onverhard
+		
+	UNION ALL
+	
+	SELECT *, 
+		'bgt_btrn_grasland_agrarisch'::char(100) AS bron 
+		FROM sportparken.bgt_btrn_grasland_agrarisch
 
--- Selectie velden binnen sportpark obv k10 plus (veld_park_zero)
-drop table if exists sportparken.veld_park_zero;
-create table sportparken.veld_park_zero as
-select sportparken.veld_park_cont.*, 'v' as type_veld
-from sportparken.k10plus_2016_sport, sportparken.veld_park_cont
-where st_disjoint(veld_park_cont.geom,st_centroid(k10plus_2016_sport.geom)) = 'f';
-alter table sportparken.veld_park_zero
-alter type_veld TYPE character;
+/* Select geometries of BGT based on sport park geometry (veld_park_cont). 
+Fields are selected based on this table on multiple levels:
+- Based on the proximity of k10_plus geometries (next step in script)
+- Manually, in response to missing fields selected by ids) */
+DROP TABLE if exists sportparken.veld_park_cont;
+CREATE TABLE sportparken.veld_park_cont AS
+	SELECT sportparken.bgt_union.*, 
+		sportparken.park.naam AS sportpark
+	FROM sportparken.park, 
+		sportparken.bgt_union
+	WHERE st_disjoint(bgt_union.geom,park.geom) = 'f';
+
+/* Select fields in sport park based on k10_plus file (veld_park_zero).
+k10_plus contains geometries of many sport fields in Amsterdam. 
+All field are assigned 'v' (veld) as default field type. 
+Later fields can be assigned 'h' (honkbalveld), if multiple geometries need one veldid. */
+DROP TABLE if exists sportparken.veld_park_zero;
+CREATE TABLE sportparken.veld_park_zero AS
+SELECT sportparken.veld_park_cont.*, 
+	'v'::char(1) AS type_veld
+FROM sportparken.k10plus_2016_sport, 
+	sportparken.veld_park_cont
+WHERE st_disjoint(veld_park_cont.geom,st_centroid(k10plus_2016_sport.geom)) = 'f';
 
 -- Toevoegen velden k10 plus 
 DELETE FROM sportparken.veld_park_zero WHERE bron = 'k10plus_2016_sport';
