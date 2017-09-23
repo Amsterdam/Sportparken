@@ -59,24 +59,36 @@ class HuurderDetailSerializer(serializers.ModelSerializer):
 		]
 
 
+class SportparkGeomListSerializer(serializers.ModelSerializer):
+	url = serializers.HyperlinkedIdentityField( view_name = 'api:sportparkGeom-detail')
+
+	class Meta:
+		model = SportparkGeometry
+		fields = ( 
+			'tid',
+			'url',
+			'geometry',
+			)
+
+
 class SportparkListSerializer(serializers.ModelSerializer):
 	url = serializers.HyperlinkedIdentityField( view_name = 'api:sportpark-detail')
+
+	geometry = SportparkGeomListSerializer(source='sportparkgeometry_set', many=True)
+	
 	class Meta:
 		model = Sportpark
-		fields = [
+		fields = (
 			'url',
 			'tid',
-			'name'
-		]
+			'name',
+			'geometry'
+		)
 
 
 class SportparkDetailSerializer(serializers.ModelSerializer):
-	geometry = serializers.SerializerMethodField()
 
-	def get_geometry(self, obj):
-		request = self.context.get('request')
-		qs = obj.object_geometry_set
-		return SportparkGeomListSerializer(qs, many=True, context={'request':request}).data
+	geometry = SportparkGeomListSerializer(source='sportparkgeometry_set', many=True)
 
 	class Meta:
 		model = Sportpark
@@ -113,9 +125,10 @@ class SportparkObjectListSerializer(serializers.ModelSerializer):
 			'name',
 			'objectType',
 			'ondergrond_type',
+			'huurders',
 			'verhuurprijs',
 			'geometry',
-			'huurders',
+
 		]
 
 
@@ -139,15 +152,6 @@ class SportparkObjectDetailSerializer(serializers.ModelSerializer):
 		]
 
 
-class SportparkGeomListSerializer(serializers.ModelSerializer):
-	url = serializers.HyperlinkedIdentityField( view_name = 'api:sportparkGeom-detail')
-
-	class Meta:
-		model = SportparkGeometry
-		fields = [ 
-			'tid',
-			'url'
-			]
 
 
 class SportparkGeomDetailSerializer(serializers.ModelSerializer):
@@ -164,6 +168,7 @@ class SportparkObjectGeomListSerializer(serializers.ModelSerializer):
 		fields = [ 
 			'tid',
 			'url',
+			'geometry',
 			]
 
 
@@ -282,7 +287,3 @@ class UserLoginSerializer(serializers.ModelSerializer):
 				raise serializers.ValidationError('Password niet correct')
 			data['token'] = "SOME TOKEN"
 		return data
-
-
-
-

@@ -49,7 +49,7 @@
 			return $http.get(instances.sportparkGeometry);
 		}
 		
-		function getSportpark (id) {
+		function getSportpark(id) {
 			return $http.get(instances.sportpark + id);
 		}
 

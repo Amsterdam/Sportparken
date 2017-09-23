@@ -1,14 +1,8 @@
-( function () {
-    'use strict'
-    
-    angular.module('sportparken_detail', [] )
-    
-})();
 
-(function () {
-    'use strict';
-    angular.module('sportparken_detail')
-        .filter('objectTypeFilter', function () {
+
+var app = angular.module('sportparken_detail', [] ) 
+
+app.filter('objectTypeFilter', function () {
             return function (input, type){
                 var out = []
                 angular.forEach(input, function(a) {
@@ -16,13 +10,9 @@
                 })
                 return out;
             }
-        })
-}) ();
+        });
 
-(function () {
-    'use strict';
-    angular.module('sportparken_detail')
-        .filter('objectOndergrondFilter', function () {
+app.filter('objectOndergrondFilter', function () {
             return function (input, ondergrond){
                 var out = []
                 angular.forEach(input, function(a) {
@@ -31,12 +21,8 @@
                 return out;
             }
         })
-}) ();
 
-(function () {
-    'use strict';
-    angular.module('sportparken_detail')
-        .filter('objectNameFilter', function () {
+app.filter('objectNameFilter', function () {
             return function (input, sName){
                 var out = []
                 if( typeof (sName) === 'undefined'  ) {
@@ -50,8 +36,12 @@
                 return out;
             }
         })
-}) ();
 
+app.filter('objectSliceFilter', function() {
+            return function(arr, start, end) {
+                return arr.slice(start, end);
+                };
+        });
 
 
 (function () {
@@ -69,9 +59,10 @@
             controllerAs: 'overzichtCtrl'
         });
 
-    overzichtController.$inject = ['$scope', '$state', 'sportparkApi','leaflet'];
+    overzichtController.$inject = ['$location', '$scope', '$state', 'sportparkApi','leaflet'];
 
-    function overzichtController ($scope, $state, sportparkApi, leaflet) {
+    function overzichtController ($location, $scope, $state, sportparkApi, leaflet) {
+        console.log($location.$$absUrl);
         const self = this;
         self.stateName = "sportparken.sportparkendetail"
         self.state = $state;
@@ -145,19 +136,29 @@
             // hack to add multiple layers to the map, without loading them @ once.
             // when we don't do this, all geoJsons becom a seperate layer. For styling that is not wanted
             // the actual geoJsons are added later on.
-            self.jsonVar = L.geoJson(null, {
-                                        style: styleSportpark,
+
+            self.sportparken_layer = L.geoJson(null, {
+                                        styleFeature: styleSportpark,
                                         onEachFeature: onEachFeature
                                         }).addTo(self.myMap)
-   
+
         
         function onEachFeature(feature, layer) {
             layer.on( {
                 mouseover: mouseOnFeature,
                 mouseout: resetMouseOnFeature,
-                click: showPopUp
+                click: onClick,
+                hoover: showPopUp
             });
+
+        self.myMap.invalidateSize();
         }
+
+        function onClick(e) {
+            //console.log(this.options.win_url);
+            window.location.href = '#!/sportparken/'+e.target.feature.properties.sportpark_object_id+'/objecten';
+        }
+
 
         function mouseOnFeature(e) {
             self.map_info.update(e.target.feature.properties);
@@ -179,7 +180,7 @@
                 fillColor: 'blue',
                 fillOpacity: 0.5,
                 color: 'darkblue',
-                weight: 0.8
+                weight: 0.2
             }
         }
 
@@ -192,7 +193,7 @@
             self.map_info.update = function (obj) {
                 this._div.innerHTML = 
                     (obj ?
-                        '<b>' + obj.sportpark_object_name 
+                        '<b>' + obj.sportpark_object_name
                         : 'Muis over een object <br> <br>');
             };
 
@@ -202,47 +203,36 @@
     self.initMap()
 
 
+    self.getSportparken = function () {
+        sportparkApi.getSportparken().then( function( response ) { 
+            self.sportparken = response.data;
+            addSportparkLayer(response.data)                  
+        })
+    }
 
-//        self.sportparkData = {}
-        self.getSportparkenData = function(){
-            sportparkApi.getSportparken().then(function(response){
-                self.spObjectData = response.data
-                for (var i = 0; i < self.spObjectData.length; i++) {
-                    sportparkApi.getFromUrl(self.spObjectData[i].url).then( function (response) {
-                                 addSportparkLayer(response.data)      
-        
-                    })
-                }; 
-            })
 
-        }
-
-        self.getSportparkenData();
-
-        function addSportparkLayer(obj){
-            var i = 0;
-            while( i < obj.geometry.length ) {
-                sportparkApi.getFromUrl(obj.geometry[i].url).then(function(response){
-                    self.org_objectData.push(response.data)
-                        var enhanchedGeoJson =
-                        {
-                            "type": "Feature",
-                            "properties": {
-                                "sportpark_object_name": obj.name,
-                                "sportpark_object_id": obj.tid
-                            },
-                            "geometry": response.data.geometry
-                        }
-                        self.jsonVar.addData(enhanchedGeoJson);
-                        self.myMap.fitBounds(self.jsonVar.getBounds());
-                        console.log(enhanchedGeoJson) 
-                        // runnning this method to store the data in a user array, where the user can edit the data
-                        //self.reset_data()
-                })
+    function addSportparkLayer(obj){
+        var i = 0;
+        console.log(obj) 
+        while( i < obj.length ) {
+                    var enhanchedGeoJson =
+                    {
+                        "type": "Feature",
+                        "properties": {
+                            "sportpark_object_name": obj[i].name,
+                            "sportpark_object_url": obj[i].url,
+                            "sportpark_object_id": obj[i].tid
+                        },
+                        "geometry": obj[i].geometry[0].geometry
+                    }
+                    self.sportparken_layer.addData(enhanchedGeoJson);
+                    // Zoom to polygons
+                    self.myMap.fitBounds(self.sportparken_layer.getBounds());
                 i ++ 
             }
+        }
 
-        } 
+    self.getSportparken();
   
     }
 })();
@@ -262,6 +252,7 @@
 
     function pageController ($scope, $state) {
         const self = this;
+
 //        vm.stateName = "sportparken.sportparkendetail"
 //        vm.state = $state;
         
@@ -279,21 +270,117 @@
             controllerAs: 'ooCtrl'
         });
 
-    objectOverzichtController.$inject = ['$scope', '$state', 'sportparkApi', '$stateParams'];
+    objectOverzichtController.$inject = ['$scope', '$state', 'sportparkApi', '$stateParams' ];
 
     function objectOverzichtController ($scope, $state, sportparkApi, $stateParams ) {
-        const self = this;
+        const self = this;   
         self.sportparkId = self.sportparkId || $stateParams.id
         self.selectedObject = {};
         self.selectedGeometry = [];
         self.veldenList = [];
+        self.sportparkData = {};
         
         self.getVeldenList = function(spid) {
             sportparkApi.getSportparkObjectenWithSportpark(spid).then( function(response) {
                 self.veldenList = response.data;
+                // sort by tid
+                self.veldenList.sort(function(a,b) { return a.tid-b.tid });
+                // add auto increment
+                for(i=0;i<self.veldenList.length;i++){
+                    self.veldenList[i]['number'] = i+1;
+                } 
+            })         
+        }
+
+        self.getSportparkData = function(spid){
+            sportparkApi.getSportpark(spid).then(function(response){
+                self.sportparkData = response.data;
+            });           
+        }
+
+        self.getVeldenList(self.sportparkId);
+        self.getSportparkData(self.sportparkId); 
+         
+        self.selectObject = function (obj) {
+            var tmp = [];
+
+            if( self.selectedObject == obj ) {
+                self.selectedObject = {}
+            } else {
+                self.selectedObject = obj
+                tmp.push(self.selectedObject.tid)
+    //                var i;
+    //                for (i=0; i < self.selectedObject.geometry.length; i++ ) {
+    //                    tmp.push(self.selectedObject.geometry[i].tid)
+    //                }
+            }
+            console.log(tmp)
+            self.selectedGeometry = tmp;         
+        }
+    }
+})();
+
+( function () {
+    angular.module('sportparken_detail')
+        .component('print', {
+            bindings: {
+                size: '='
+            },
+            templateUrl: 'sportparken/static/app/components/sportparken_detail/partials/print.html',
+            controller: objectOverzichtController,
+            controllerAs: 'ooCtrl'
+        });
+
+    objectOverzichtController.$inject = ['$scope', '$state', 'sportparkApi', '$stateParams' ];
+
+    function objectOverzichtController ($scope, $state, sportparkApi, $stateParams ) {
+        const self = this;   
+        
+        self.printScreen = function() {
+            window.print();
+        }
+
+        self.sportparkId = self.sportparkId || $stateParams.id
+        self.selectedObject = {};
+        self.selectedGeometry = [];
+        self.veldenList = [];
+        self.sportparkData = {};
+        
+        self.getVeldenList = function(spid) {
+            sportparkApi.getSportparkObjectenWithSportpark(spid).then( function(response) {
+                self.veldenList = response.data;
+                // sort by tid
+                self.veldenList.sort(function(a,b) { return a.tid-b.tid });
+                // add auto increment
+                for(i=0;i<self.veldenList.length;i++){
+                    self.veldenList[i]['number'] = i+1;
+                }
+               return self.veldenList
             })
         }
+        
+        self.getSportparkData = function(spid){
+            sportparkApi.getSportpark(spid).then(function(response){
+                self.sportparkData = response.data; 
+            });           
+        }
+
         self.getVeldenList(self.sportparkId);
+        self.getSportparkData(self.sportparkId); 
+
+        self.columns = [];
+        self.columnCount = 2;
+  
+        self.calculateColumns = function(arr) {
+            var itemsPerColumn = Math.ceil(arr.length / self.columnCount);
+            for (var i=0; i<arr.length; i += itemsPerColumn) {
+                var col = {start:i, end: Math.min(i + itemsPerColumn, arr.length) };
+                self.columns.push(col);
+            }
+            console.log(self.columns);
+        }
+  
+        self.calculateColumns(self.veldenList);
 
         self.selectObject = function (obj) {
             var tmp = [];
@@ -303,16 +390,17 @@
             } else {
                 self.selectedObject = obj
                 tmp.push(self.selectedObject.tid)
-//                var i;
-//                for (i=0; i < self.selectedObject.geometry.length; i++ ) {
-//                    tmp.push(self.selectedObject.geometry[i].tid)
-//                }
+    //                var i;
+    //                for (i=0; i < self.selectedObject.geometry.length; i++ ) {
+    //                    tmp.push(self.selectedObject.geometry[i].tid)
+    //                }
             }
-            self.selectedGeometry = tmp;
-            
+            console.log(tmp)
+            self.selectedGeometry = tmp;  
         }
     }
 })();
+
 
 ( function () {
     'use strict';
@@ -339,7 +427,6 @@
         self.user_objectData = []; // holds the geometry and onther information each object is made up off
         self.org_objectData = [];
         
-
         var poly = null
         
         self.getOndergrondenList = function() {
@@ -352,7 +439,8 @@
 
         self.getVeldenList = function(spid) {
             sportparkApi.getSportparkObjectenWithSportpark(spid).then( function(response) {
-                self.veldenList = response.data;    
+                self.veldenList = response.data;
+                
             })
         }
         self.getVeldenList(self.sportparkId);
@@ -382,6 +470,7 @@
 //                                          style: styleFeature,
 //                                          onEachFeature: onEachFeature
                                       }).addTo(self.myMap)
+
             
         }
         self.initMap()
@@ -456,11 +545,8 @@
                 self.user_objectData = []
                 self.user_selectedObject = []
             })
-
         }
-    
-    }
-                   
+    }          
 }) ();
 
 ( function () {
@@ -478,16 +564,19 @@
     mapController.$inject = ['leaflet', 'sportparkApi', '$stateParams', '$scope']
 
     function mapController (leaflet, sportparkApi, $stateParams, $scope ) {
+
         /**
         * basic variables
         * used for controlling the logic in the div
         */
         const self = this;
         self.id = "mapId";
-        self.sportparkId = $stateParams.id;
-        self.user_sportparkData = {}
-        self.origin_sportparkData = {}
 
+
+        self.sportparkId = $stateParams.id;
+        self.sportparkData = {};
+        self.origin_sportparkData = {};
+        self.labels_layer = {};
         /**
         * map variables
         */
@@ -578,7 +667,7 @@
             // Load default baselayer
             baseLayers['Openstreetmap'].addTo(self.myMap);
             // Load default overlay
-            overlays['Luchtfoto'].addTo(self.myMap);
+            //overlays['Luchtfoto'].addTo(self.myMap);
 
 
             overlays['Luchtfoto'].setOpacity(0.7);
@@ -601,6 +690,8 @@
 
             // end hack
 
+
+
             self.map_info.onAdd = function (map) {
                     this._div = L.DomUtil.create('div', 'map_info'); // create a div with a map_class "info"
                     this.update();
@@ -611,7 +702,7 @@
                 this._div.innerHTML = '<h4>Basis gegevens</h4>' +
                     (obj ?
                         '<b>' + obj.sportpark_object_name + '</b><br>' +
-                        obj.ondergrondType
+                        obj.sportpark_object_ondergrondType
                         : 'Muis over een object <br> <br>');
             };
 
@@ -651,65 +742,99 @@
         }
         self.initMap()
 
-        self.getSportparkData = function(spid){
-            sportparkApi.getSportpark(spid).then(function(response){
-                self.spObjectData = response.data
-                for (var i = 0; i < self.spObjectData.geometry.length; i++) {
-                    sportparkApi.getFromUrl(self.spObjectData.geometry[i].url).then( function (response) {
-                        addSportparkLayer(self.myMap, response.data )
-                    });
+
+    self.getVeldenList = function(spid) {
+            sportparkApi.getSportparkObjectenWithSportpark(spid).then( function(response) {
+                self.veldenList = response.data;
+                // sort by tid
+                self.veldenList.sort(function(a,b) { return a.tid-b.tid });
+                // add auto increment
+                for(i=0;i<self.veldenList.length;i++){
+                    self.veldenList[i]['number'] = i+1;
                 }
+
+                console.log(self.veldenList);
+
+                addObjectLayer(self.veldenList) 
+               
             })
         }
-
-        self.getSportparkData(self.sportparkId)
-
-        function addSportparkLayer(map, geoJson ) {
-            var enhanchedGeoJson =
-                {
-                    "type": "Feature",
-                    "properties": {
-                        "sportpark": 1,
-                        "tid": 1
-                    },
-                    "geometry": geoJson.geometry
-                }
-
-            self.sportpark_layer_var.addData(enhanchedGeoJson)
-            map.fitBounds(self.sportpark_layer_var.getBounds());
-        }
+        self.getVeldenList(self.sportparkId);
 
 
-        self.getSportparkObjecten = function ( spid ) {
-            sportparkApi.getSportparkObjectenWithSportpark(spid).then( function (response ) {
-                for (var i = 0; i < response.data.length; i++ ) {
-                    for (var j = 0; j < response.data[i].geometry.length; j++ ){
-                        sportparkApi.getFromUrl(response.data[i].geometry[j].url).then( function (response) {
-                            addObjectLayer(self.myMap,
-                                            response.data
-                                            )
-                        });
+        function addObjectLayer(veldenList) {
+            var i = 0 
+            while( i < veldenList.length ) {
+                var enhanchedGeoJson =
+                    {
+                        "type": "Feature",
+                        "id" : veldenList[i].tid,
+                        "properties": {
+                            "sportpark_object_name": veldenList[i].name,
+                            "sportpark_object_url": veldenList[i].url,
+                            "sportpark_object_id": veldenList[i].tid,
+                            "number": veldenList[i].number,
+                            "sportpark_object_type": veldenList[i].objectType,
+                            "sportpark_object_ondergrondType": veldenList[i].ondergrond_type,
+                        },
+                        "geometry": veldenList[i].geometry[0].geometry
                     }
-                }
-            });
+                self.objects_layer_var.addData(enhanchedGeoJson) 
+                    var noneIcon = L.icon({
+                        iconUrl: '',
+                        shadowUrl: '',
+                        iconSize:     [0, 0], // size of the icon
+                        shadowSize:   [0, 0], // size of the shadow
+                        iconAnchor:   [0, 0], // point of the icon which will correspond to marker's location
+                        shadowAnchor: [0, 0],  // the same for the shadow
+                        popupAnchor:  [0, -25] // point from which the popup should open relative to the iconAnchor
+                    });
+
+                    var emptyIcon = L.divIcon({className: 'my-div-icon'});
+                    var geojson = L.geoJson(enhanchedGeoJson,{
+                    onEachFeature: function(feature,layer){
+                        var centroidPolygon = L.polygon(feature.geometry.coordinates).getBounds().getCenter()
+                        L.marker([centroidPolygon.lng,centroidPolygon.lat],{icon: emptyIcon}).bindTooltip(
+                                feature.properties.number.toString(), //+ feature.properties.sportpark_object_name, 
+                                {className: 'map_label', permanent: true, direction: 'center',opacity: 1,offset: L.point({x: -10, y: -10})}
+                        ).addTo(self.myMap);
+                    }
+                  });
+
+   
+                i ++       
+            }
+            geojson.addTo(self.myMap);
         }
 
-        self.getSportparkObjecten(self.sportparkId)
+       self.sportparkData = function(spid){
+            sportparkApi.getSportpark(spid).then(function(response){
+                self.sportparkData = response.data;
+                addSportparkLayer(response.data )
+                console.log(self.sportparkData)
+                    });           
+        }
 
-        function addObjectLayer(map, geoJson ) {
-            var enhanchedGeoJson =
-                {
-                    "type": "Feature",
-                    "properties": {
-                        "sportpark_object_name": geoJson.sportpark_object_name,
-                        "sportpark_object_id": geoJson.sportpark_object_id,
-                        "sportpark_object_type": geoJson.sportpark_object_type,
-                        "ondergrondType": geoJson.ondergrond_type,
-                    },
-                    "geometry": geoJson.geometry
-                }
-                self.objects_layer_var.addData(enhanchedGeoJson);
+        function addSportparkLayer(sportparkData ) {
+     
+            var i = 0 
+            while( i < sportparkData.geometry.length ) {
+                var enhanchedGeoJson =
+                    {
+                        "type": "Feature",
+                        "id" : sportparkData.tid,
+                        "properties": {
+                            "sportpark_object_name": sportparkData.name,
+                        },
+                        "geometry": sportparkData.geometry[i].geometry
+                    }
+                self.sportpark_layer_var.addData(enhanchedGeoJson); 
+                i ++       
             }
+            self.myMap.fitBounds(self.sportpark_layer_var.getBounds());
+        }
+
+        self.sportparkData(self.sportparkId)
 
         function onEachFeature(feature, layer) {
             layer.on( {
@@ -776,7 +901,7 @@
             if( properties.sportpark_object_type === "pand") {
                 return getColorValue('Verhard')
             } else {
-                return getColorValue(properties.ondergrondType)
+                return getColorValue(properties.sportpark_object_ondergrondType)
 
             }
         }
@@ -800,7 +925,7 @@
     'use strict';
 
     // onderhouden van de relatie tussen een huurder en een sportpark objecten, binnen
-    // het geselecteerde sportpak
+    // het geselecteerde sportpark
 
     angular.module('sportparken_detail')
         .component('objectHuurderRelatie', {

@@ -32,6 +32,9 @@
             }).state( "sportparken.sportparkendetail.objecten", {
                 url: '/objecten',
                 component: "objectOverzicht"
+            }).state( "sportparken.sportparkendetail.print", {
+                url: '/print',
+                component: "print"
             }).state( "sportparken.sportparkendetail.edit_objecten", {
                 url: '/editobjecten',
                 component: "editObject"
@@ -53,8 +56,11 @@
     angular.module("sportparken").controller('mainCtrl', mainCtrl);
     
     mainCtrl.$inject = ['$scope']
-    
+
+
     function mainCtrl($scope) {
+  
     }
     
 }) ();
+

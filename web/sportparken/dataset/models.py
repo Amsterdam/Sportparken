@@ -107,9 +107,7 @@ class ObjectGeometry(geo_models.Model):
 
 
 class SportparkGeometry(ObjectGeometry):
-    sportpark = models.ForeignKey(Sportpark,
-        related_name='object_geometry_set',
-        on_delete=models.CASCADE)
+    sportpark = models.ForeignKey(Sportpark, on_delete=models.CASCADE)
     bron = models.TextField(null=True)
 
     class Meta:

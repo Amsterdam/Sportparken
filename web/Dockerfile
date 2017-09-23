@@ -28,7 +28,7 @@ USER datapunt
 
 RUN export DJANGO_SETTINGS_MODULE=sportparken.settings
 
-# Call collectstatic for django rest_framework javascript and css files:
+
 RUN python manage.py collectstatic --noinput
 
 CMD uwsgi
