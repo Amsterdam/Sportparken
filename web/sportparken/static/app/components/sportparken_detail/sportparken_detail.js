@@ -796,7 +796,7 @@ app.filter('objectSliceFilter', function() {
                         var centroidPolygon = L.polygon(feature.geometry.coordinates).getBounds().getCenter()
                         L.marker([centroidPolygon.lng,centroidPolygon.lat],{icon: emptyIcon}).bindTooltip(
                                 feature.properties.number.toString(), //+ feature.properties.sportpark_object_name, 
-                                {className: 'map_label', permanent: true, direction: 'center',opacity: 1,offset: L.point({x: -10, y: -10})}
+                                {className: 'map_label', permanent: true, direction: 'center',opacity: 1}//,offset: L.point({x: -5, y: -5})}
                         ).addTo(self.myMap);
                     }
                   });

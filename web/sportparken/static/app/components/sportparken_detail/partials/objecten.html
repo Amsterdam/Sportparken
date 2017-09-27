@@ -15,13 +15,13 @@
                     <!--<div class="autoNumber">#{{$index + 1}}[[veld.tid]]</div>-->
                     <div class="headerText"
     						ng-click="ooCtrl.selectObject(veld)">[[veld.number]] [[veld.name]]</div>
-    				
+    				<div class="ondergrond">[[veld.ondergrond_type]]</div>
     				<div class="subHeaderText">
     					<ul>
     						<li ng-repeat="huurder in veld.huurders | orderBy:'name' ">[[huurder.name]]</li>
     					</ul>
     				</div>
-                    <div class="ondergrond">[[veld.ondergrond_type]]</div>
+                    
                 </div>
 
     			<div><p>Panden</p></div>
