@@ -17,9 +17,70 @@
         font-family: "Avenir LT W01 55 Roman", Arial, sans-serif;
     }
 
+    .content-wrapper {
+        margin-left:30px;
+    }
+
+    form {
+        width:100%;
+        overflow:hidden;
+    }
+
+    .loginPage {
+        margin: auto;
+        width: 33%;
+    }
+
+   .loginPage label {
+        float:left;
+        width:100%;
+        padding-right: 10px;
+        margin-bottom: 10px;
+    }
+
+    .errorMessage {
+        color: red;
+        font-weight: bold;
+    }
+
+    input.form-control {
+        float: left;
+        width:100%;
+        margin-bottom: 10px;
+    }
+
+    .loginPage button, .loginPage button:focus{
+        margin-top:10px;
+        height: 24px;
+        border: none;
+        outline:none;
+        float: left;
+        width:100%;
+        background: darkgray;
+        color: white;
+        font-weight: bold;
+    }
+
+    .loginPage button:hover, .loginPage button:active  {
+        border: none;
+        outline:none;
+        background: red;
+    }
+
+    .loginTitle {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+
+
+
+
 .print body {
            font-size: 14px;
 }
+
 .print {
     height: 297mm;
     width: 420mm;
@@ -84,7 +145,7 @@
         width: 33%;
     /*    height: 100%;*/
         margin-bottom: 5px;
-        margin-right: 5px;
+        margin-right: 10px;
         float: left;
     /*    display: inline-block;*/
     }
@@ -118,7 +179,9 @@
     .main-nav {
         background-color: #333;
         color: #fff;
-        margin-bottom: 5px;
+        margin-bottom: 10px;
+        margin-left: 30px;
+        margin-right: 10px;
     }
 
     .main-nav ul {
@@ -160,7 +223,7 @@
     }
 
     .sub-nav {
-        margin-bottom: 10px;
+        margin-bottom: 5px;
     }
 
     .sub-nav ul {
@@ -180,6 +243,7 @@
         margin-top: 5px;
         margin-left: 5px;
         margin-bottom: 10px;
+        float:left;
     }
 
     .u-row {
@@ -227,7 +291,7 @@
         line-height: 1.25;
         width: 100%;
         height: 30px;
-        padding-right: 40px;
+        padding-right: 50px;
         padding-left: 10px;
         border: 1px solid #ccc;
         border-radius: 0;
@@ -249,6 +313,16 @@
  
         float:left;
     }
+
+    .number {
+        /*font-family: verdana, arial, sans-serif; */
+        text-align: right;
+        width: 20px;
+        float: left;
+        margin-right: 5px;
+        padding-top: 0px;
+    }
+
     .print .number {
         font-family: verdana, arial, sans-serif;
         text-align: right;
@@ -285,7 +359,7 @@
     .object-card {
         margin-bottom: 5px;
         margin-left: 0px;
-        margin-right: 15px;
+        margin-right: 0px;
         padding: 5px 5px 5px 5px;
         background-color: #eee;
     }
@@ -312,6 +386,30 @@
         font-size: 1.0em;
         margin-bottom: 5px;
     }
+
+        .headerText, h2 {
+        font-weight: bold;
+        font-size: 1.0em;
+    }
+
+     .header-login {
+        float:right;
+        top:5px;
+        margin-top: 5px;
+        margin-right: 15px;
+    }
+
+    .header-login ul {
+        list-style-type: none;
+    }
+
+     .header-login a {
+        font-weight: bold;
+        color:darkgray;
+        text-decoration: none;
+        font-size: 1.0em;
+    }
+
 .print .headerText {
         font-weight: bold;
         margin-bottom: 3px;
@@ -334,7 +432,7 @@
 
     #total_map {
         width: 100%;
-        height: 100%;
+        height: 88vh;
         background-color: aquamarine;
     }
 
