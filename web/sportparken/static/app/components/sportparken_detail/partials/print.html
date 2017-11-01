@@ -1,3 +1,4 @@
+
 <div class="print">
     <!--            <pre>[[ooCtrl.selectedObject | json]]</pre>-->
     <div class="u-row">
@@ -7,12 +8,44 @@
             <basic-map selected-objects=ooCtrl.selectedGeometry></basic-map>
             <div><h1>{{ooCtrl.sportparkData.name}}</h1></div>
         </div>
-     
+ </div>
+<div class="print">  
         <div class="n-col-2">
-            
-            <ul id="objectList" >
+            <div><h1>{{ooCtrl.sportparkData.name}}</h1></div>
+                
+                 <ul id="objectList">
+                    <h3>Velden</h3>
+                   <li class="object-card"
+                     ng-repeat="veld in ooCtrl.veldenList | objectTypeFilter:'veld' | objectNameFilter:query | orderBy:'veld.name' | objectSliceFilter:0:20""
+                     ng-class="{objectCardActive:ooCtrl.selectedObject == veld}"
+                    >
+                    <!--<div class="autoNumber">#{{$index + 1}}[[veld.tid]]</div>-->
+                
+                        <div class="headerText" id="leftCol"
+                            ng-click="ooCtrl.selectObject(veld)">[[veld.name]]</div>
+                        <div class="ondergrond">[[veld.ondergrond_type]]</div>
+                    <div class="subHeaderText">
+                        <ul>
+                            <li ng-repeat="huurder in veld.huurders | orderBy:'name' ">[[huurder.name]]</li>
+                        </ul>
+                    </div>
+                    </li>
+                </ul>
+
+                
+                <ul id="objectList">
+                    <h3>Panden</h3>
+                  <li class="object-card"
+                     ng-repeat="veld in ooCtrl.veldenList | objectTypeFilter:'pand' | objectNameFilter:query | orderBy:'number'| objectSliceFilter:0:20"
+                     ng-class="{objectCardActive:ooCtrl.selectedObject == pand}"
+                     ng-init="veld.huurders_expanded = false;">
+                    <div class="headerText"
+                         ng-click="ooCtrl.selectObject(veld)">[[veld.name]]</div>
+                    </li>
+            </ul>
+            <ul id="objectList" class="scroll" >
                 <li class="object-card"
-                     ng-repeat="veld in ooCtrl.veldenList |  objectNameFilter:query | orderBy:'number' | objectSliceFilter:0:20"
+                     ng-repeat="veld in ooCtrl.veldenList |  objectNameFilter:query | orderBy:'number' | objectSliceFilter:20:40"
                      ng-class="{objectCardActive:ooCtrl.selectedObject == veld}"
                     >
                     <div class="headerText" ng-click="ooCtrl.selectObject(veld)">
@@ -30,27 +63,7 @@
                 </li>
 
             </ul>
-            <ul id="objectList"  >
-                <li class="object-card"
-                     ng-repeat="veld in ooCtrl.veldenList |  objectNameFilter:query | orderBy:'number' | objectSliceFilter:21:40"
-                     ng-class="{objectCardActive:ooCtrl.selectedObject == veld}"
-                    >
-                    <div class="headerText" ng-click="ooCtrl.selectObject(veld)">
-                        <div class="number">[[veld.number]]</div>
-                        <div class="objectinformation">
-                            <div>[[veld.name]]</div>
-                            <div class="ondergrond">[[veld.ondergrond_type]]</div>                    
-                            <div class="subHeaderText">
-                                <ul>
-                                    <li ng-repeat="huurder in veld.huurders | orderBy:'name' ">[[huurder.name]]</li>
-                                </ul>
-                            </div>
-                        </div>
-                    
-                </li>
-
-            </ul>
-                    <ul id="objectList"  >
+                    <ul id="objectList" class="scroll" >
                 <li class="object-card"
                      ng-repeat="veld in ooCtrl.veldenList |  objectNameFilter:query | orderBy:'number' | objectSliceFilter:41:60"
                      ng-class="{objectCardActive:ooCtrl.selectedObject == veld}"
@@ -70,7 +83,7 @@
                 </li>
 
             </ul>
-                               <ul id="objectList"  >
+                               <ul id="objectList" class="scroll" >
                 <li class="object-card"
                      ng-repeat="veld in ooCtrl.veldenList |  objectNameFilter:query | orderBy:'number' | objectSliceFilter:61:80"
                      ng-class="{objectCardActive:ooCtrl.selectedObject == veld}"
@@ -90,7 +103,7 @@
                 </li>
 
             </ul>
-            <ul id="objectList"  >
+            <ul id="objectList" class="scroll" >
                 <li class="object-card"
                      ng-repeat="veld in ooCtrl.veldenList |  objectNameFilter:query | orderBy:'number' | objectSliceFilter:81:100"
                      ng-class="{objectCardActive:ooCtrl.selectedObject == veld}"
@@ -110,7 +123,7 @@
 
             </ul>
                         </ul>
-                <ul id="objectList"  >
+                <ul id="objectList" class="scroll" >
                 <li class="object-card"
                      ng-repeat="veld in ooCtrl.veldenList |  objectNameFilter:query | orderBy:'number' | objectSliceFilter:101:120"
                      ng-class="{objectCardActive:ooCtrl.selectedObject == veld}"

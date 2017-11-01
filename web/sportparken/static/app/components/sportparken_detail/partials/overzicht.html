@@ -2,10 +2,11 @@
     <div class="n-col-2">
         <input type="text" id="query" class="search_input" ng-model="query" placeholder="Zoeken" autofocus/>
         <div id="overzichtList" class="scroll">
+            
             <div class="object-card" 
                  ng-repeat="sportpark in overzichtCtrl.sportparken | filter:query | orderBy:'name'"
                  ui-sref="sportparken.sportparkendetail.objecten({id:sportpark.tid})">
-                <h2>[[sportpark.name]]</h2>
+                <div class="number">[[$index + 1]]</div><div><h2>[[sportpark.name]]</h2></div>
                 <p>[[sportpark.adress]]</p>
             </div>
         </div>

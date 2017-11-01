@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import User
 from rest_framework import serializers
 
 from sportparken.dataset.models import (
@@ -11,7 +12,7 @@ from sportparken.dataset.models import (
         Ondergrond
         )
 
-User = get_user_model()
+#User = get_user_model()
 
 class HuurderListSerializer(serializers.ModelSerializer):
 	url = serializers.HyperlinkedIdentityField( view_name = 'api:huurder-detail')
@@ -262,6 +263,7 @@ class UserLoginSerializer(serializers.ModelSerializer):
 		model = User
 		fields  =[
 		        'username',
+		        'email',
 		        'password',
 		        'token',
 		    ]

@@ -1,4 +1,7 @@
-from django.conf.urls import url
+from django.conf.urls import url, include
+from rest_framework import routers
+
+# Explicit loaded views
 from .views import (
     HuurderListApi,
     HuurderDetailApi,
@@ -14,10 +17,13 @@ from .views import (
     UserLoginApi,
 )
 
+# Add user add/delete/create extensions on api/users
+router = routers.DefaultRouter()
+router.register(r'users', UserLoginApi)
+
 urlpatterns = [
-    url(r'^auth/$',
-        UserLoginApi.as_view(),
-        name='auth'),
+    url(r'^', include(router.urls)),
+
     url(r'^huurder/$',
         HuurderListApi.as_view(),
         name='huurder-list'),

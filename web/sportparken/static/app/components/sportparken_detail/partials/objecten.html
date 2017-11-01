@@ -9,12 +9,12 @@
     <!--            <pre>[[ooCtrl.selectedObject | json]]</pre>-->
     			<div><p>Velden</p></div>
                 <div class="object-card"
-    				 ng-repeat="veld in ooCtrl.veldenList | objectTypeFilter:'veld' | objectNameFilter:query | orderBy:'number'"
+    				 ng-repeat="veld in ooCtrl.veldenList | objectTypeFilter:'veld' | objectNameFilter:query | orderBy:'veld.name'"
     				 ng-class="{objectCardActive:ooCtrl.selectedObject == veld}"
     				>
                     <!--<div class="autoNumber">#{{$index + 1}}[[veld.tid]]</div>-->
                     <div class="headerText"
-    						ng-click="ooCtrl.selectObject(veld)">[[veld.number]] [[veld.name]]</div>
+    						ng-click="ooCtrl.selectObject(veld)">[[veld.name]]</div>
     				<div class="ondergrond">[[veld.ondergrond_type]]</div>
     				<div class="subHeaderText">
     					<ul>
@@ -26,11 +26,11 @@
 
     			<div><p>Panden</p></div>
     			<div class="object-card"
-    				 ng-repeat="veld in ooCtrl.veldenList | objectTypeFilter:'pand' | objectNameFilter:query | orderBy:'number'"
+    				 ng-repeat="veld in ooCtrl.veldenList | objectTypeFilter:'pand' | objectNameFilter:query | orderBy:'veld.name'"
     				 ng-class="{objectCardActive:ooCtrl.selectedObject == veld}"
     				 ng-init="veld.huurders_expanded = false;">
     				<div class="headerText"
-    					 ng-click="ooCtrl.selectObject(veld)">[[veld.number]] [[veld.name]]</div>
+    					 ng-click="ooCtrl.selectObject(veld)">[[veld.name]]</div>
     				<div class="subHeaderText">
                         <!--ng-click="veld.huurders_expanded = !veld.huurders_expanded" >
                         Huurders:  +

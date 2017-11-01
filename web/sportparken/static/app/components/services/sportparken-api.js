@@ -7,16 +7,17 @@
 
 	function sportparkApiFact ($http, $location) {
 		var baseUrl = $location.protocol()+'://'+$location.host()+':'+$location.port();
-		console.log(baseUrl);
+		//console.log(baseUrl);
 		var instances = {
 			sportpark: baseUrl+'/api/sportpark/',
+			soort: baseUrl+'/api/soort/',
 			sportparkObject: baseUrl+'/api/sportparkobject/',
 			sportparkGeometry: baseUrl+'/api/sportparkgeometry/',
             sportparkObjectGeometry: baseUrl+'/api/sportparkobjectgeometry/',
 			huurders: baseUrl+'/api/huurder/',
 			ondergronden: baseUrl+'/api/ondergrond/',
 			relations: baseUrl+'/api/relation/',
-			kvk: 'https://api.data.amsterdam.nl/handelsregister/maatschappelijkeactiviteit/',
+			//kvk: 'https://api.data.amsterdam.nl/handelsregister/maatschappelijkeactiviteit/',
 		};
 
 		return {
@@ -24,6 +25,7 @@
 			getSportpark: getSportpark,
 			getSportparkObjectenWithSportpark: getSportparkObjectenWithSportpark,
 			getSportparkGeometry:getSportparkGeometry,
+			getSoort: getSoort,
 			getSportparkObject:getSportparkObject,
 			getFromUrl:getFromUrl,
 			getHuurders:getHuurders,
@@ -37,7 +39,7 @@
 			createHuurder:createHuurder,
 			deleteHuurder:deleteHuurder,
 			getOndergronden:getOndergronden,
-			getKVKData: getKVKData,
+			//getKVKData: getKVKData,
             updateGeomObjectData: updateGeomObjectData,
 		};
 
@@ -71,6 +73,14 @@
 
 		function getHuurder(id) {
 			return $http.get(instances.huurders + id);
+		}
+
+		function getSoorten() {
+			return $http.get(instances.soort);
+		}
+
+		function getSoort(sid) {
+			return $http.get(instances.soort + sid);
 		}
 
 		function getHuurderSportparkObjectRelations(h_id, sp_id) {

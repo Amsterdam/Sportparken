@@ -1,8 +1,8 @@
 
 
-var app = angular.module('sportparken_detail', [] ) 
+var sportparkenDetail = angular.module('sportparken_detail', [] ) 
 
-app.filter('objectTypeFilter', function () {
+sportparkenDetail.filter('objectTypeFilter', function () {
             return function (input, type){
                 var out = []
                 angular.forEach(input, function(a) {
@@ -12,7 +12,7 @@ app.filter('objectTypeFilter', function () {
             }
         });
 
-app.filter('objectOndergrondFilter', function () {
+sportparkenDetail.filter('objectOndergrondFilter', function () {
             return function (input, ondergrond){
                 var out = []
                 angular.forEach(input, function(a) {
@@ -22,7 +22,7 @@ app.filter('objectOndergrondFilter', function () {
             }
         })
 
-app.filter('objectNameFilter', function () {
+sportparkenDetail.filter('objectNameFilter', function () {
             return function (input, sName){
                 var out = []
                 if( typeof (sName) === 'undefined'  ) {
@@ -37,7 +37,7 @@ app.filter('objectNameFilter', function () {
             }
         })
 
-app.filter('objectSliceFilter', function() {
+sportparkenDetail.filter('objectSliceFilter', function() {
             return function(arr, start, end) {
                 return arr.slice(start, end);
                 };
@@ -62,7 +62,7 @@ app.filter('objectSliceFilter', function() {
     overzichtController.$inject = ['$location', '$scope', '$state', 'sportparkApi','leaflet'];
 
     function overzichtController ($location, $scope, $state, sportparkApi, leaflet) {
-        console.log($location.$$absUrl);
+        //console.log($location.$$absUrl);
         const self = this;
         self.stateName = "sportparken.sportparkendetail"
         self.state = $state;
@@ -120,7 +120,7 @@ app.filter('objectSliceFilter', function() {
                                 transparent: true
                                 }),
               "Luchtfoto":    L.tileLayer.wms('https://map.data.amsterdam.nl/maps/lufo',
-                              { layers: 'lufo2016',
+                              { layers: 'lufo2017',
                                 format: 'image/png',
                                 transparent: false
                                 })
@@ -213,7 +213,7 @@ app.filter('objectSliceFilter', function() {
 
     function addSportparkLayer(obj){
         var i = 0;
-        console.log(obj) 
+        //console.log(obj) 
         while( i < obj.length ) {
                     var enhanchedGeoJson =
                     {
@@ -314,7 +314,7 @@ app.filter('objectSliceFilter', function() {
     //                    tmp.push(self.selectedObject.geometry[i].tid)
     //                }
             }
-            console.log(tmp)
+            //console.log(tmp)
             self.selectedGeometry = tmp;         
         }
     }
@@ -377,7 +377,7 @@ app.filter('objectSliceFilter', function() {
                 var col = {start:i, end: Math.min(i + itemsPerColumn, arr.length) };
                 self.columns.push(col);
             }
-            console.log(self.columns);
+            //console.log(self.columns);
         }
   
         self.calculateColumns(self.veldenList);
@@ -395,7 +395,7 @@ app.filter('objectSliceFilter', function() {
     //                    tmp.push(self.selectedObject.geometry[i].tid)
     //                }
             }
-            console.log(tmp)
+            //console.log(tmp)
             self.selectedGeometry = tmp;  
         }
     }
@@ -616,8 +616,15 @@ app.filter('objectSliceFilter', function() {
             // gejson objects that will be added later.
             // method makes it possible to toggle show of seperale layes, this is not enabled yet
 
-            self.myMap = L.map(self.id)
-                .setView([52.36443980368169, 4.795318645566371], 5);
+            L.CRS.CustomZoom = L.extend({}, L.CRS.EPSG3857, {
+                scale: function (zoom) {
+                    return 256 * Math.pow(2.04, zoom);
+                }
+            });
+
+            self.myMap = L.map(self.id, {
+                crs: L.CRS.CustomZoom
+            }).setView([52.36443980368169, 4.795318645566371], 10);
 
            // L.tileLayer('http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png', {
            //             maxZoom: 18,
@@ -625,13 +632,19 @@ app.filter('objectSliceFilter', function() {
            // }).addTo(self.myMap);
 
             var baseLayerOptions = {
-                minZoom: 11,
-                maxZoom: 21,
+                //minZoom: 11,
+                //maxZoom: 21,
                 subdomains: ['t1', 't2', 't3', 't4']
             };
             var baseLayers = { 'Topografie': L.tileLayer('https://{s}.data.amsterdam.nl/topo_wm_zw/{z}/{x}/{y}.png', baseLayerOptions),
-                               'Openstreetmap': L.tileLayer('http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png', {
-                                 maxZoom: 18,
+                               //'Openstreetmap': L.tileLayer('http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png', {
+                                'Openstreetmap': L.tileLayer.wms('http://www.openbasiskaart.nl/mapcache/?',
+                                    { layers: 'osm-epsg3857',
+                                    format: 'image/png',
+                                    transparent: true,
+                               
+                                maxZoom: 20,
+                                maxNativeZoom: 18,
                                  attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'})
                             };
             var overlays = {
@@ -670,7 +683,7 @@ app.filter('objectSliceFilter', function() {
             //overlays['Luchtfoto'].addTo(self.myMap);
 
 
-            overlays['Luchtfoto'].setOpacity(0.7);
+            overlays['Luchtfoto'].setOpacity(0.5).addTo(self.myMap);
 
             // hack to add multiple layers to the map, without loading them @ once.
             // when we not do this, all geoJsons becom a seperate layer. For styling that is not wanted
@@ -753,7 +766,7 @@ app.filter('objectSliceFilter', function() {
                     self.veldenList[i]['number'] = i+1;
                 }
 
-                console.log(self.veldenList);
+                //console.log(self.veldenList);
 
                 addObjectLayer(self.veldenList) 
                
@@ -795,7 +808,8 @@ app.filter('objectSliceFilter', function() {
                     onEachFeature: function(feature,layer){
                         var centroidPolygon = L.polygon(feature.geometry.coordinates).getBounds().getCenter()
                         L.marker([centroidPolygon.lng,centroidPolygon.lat],{icon: emptyIcon}).bindTooltip(
-                                feature.properties.number.toString(), //+ feature.properties.sportpark_object_name, 
+                                //feature.properties.number.toString(), 
+                                feature.properties.sportpark_object_name, 
                                 {className: 'map_label', permanent: true, direction: 'center',opacity: 1}//,offset: L.point({x: -5, y: -5})}
                         ).addTo(self.myMap);
                     }
@@ -811,7 +825,7 @@ app.filter('objectSliceFilter', function() {
             sportparkApi.getSportpark(spid).then(function(response){
                 self.sportparkData = response.data;
                 addSportparkLayer(response.data )
-                console.log(self.sportparkData)
+                //console.log(self.sportparkData)
                     });           
         }
 
@@ -1055,7 +1069,7 @@ app.filter('objectSliceFilter', function() {
 ( function () {
     'use strict';
     
-    angular.module("sportparken_detail")
+    angular.module('sportparken_detail')
         .component("huurderOverzicht", {
 //            template: '<div>naam: [[huurderoverzichtctrl.title]] <br> sportparkId: [[huurderoverzichtctrl.id]]</div>',
             templateUrl: 'sportparken/static/app/components/sportparken_detail/partials/huurders.html',
@@ -1077,12 +1091,12 @@ app.filter('objectSliceFilter', function() {
             sportparkApi.getHuurdersWithSportpark(spid).then( function(response) {
                 self.huurdersList = response.data;
                 angular.forEach(self.huurdersList, function(huurder) {
-                    sportparkApi.getKVKData(huurder.kvk).then( function (response){
-                        self.huurder.statitutairenaam = response.data._display;
-                        if(response.data.communicatiegegevens) {
-                            huurder.contacten = response.data.communicatiegegevens
+                    //sportparkApi.getKVKData(huurder.kvk).then( function (response){
+                     //   self.huurder.statitutairenaam = response.data._display;
+                     //   if(response.data.communicatiegegevens) {
+                     //       huurder.contacten = response.data.communicatiegegevens
 
-                        }
+                      //  }
                             if (response.data.postadres) {
                                 huurder.adrestype = "postadres";
                                 huurder.adres = response.data.postadres.volledig_adres
@@ -1091,7 +1105,8 @@ app.filter('objectSliceFilter', function() {
                                 huurder.adres = response.data.bezoekadres.volledig_adres
                             } else {
                                 huurder.adres= "Bezoek en Postadres niet opgegeven bij KVK."
-                            }                    })
+                            }              
+                    //})
                 })
             })
         }

@@ -9,32 +9,35 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
 
-		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular.min.js"></script>
-		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular-route.js"></script>
-		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular-resource.js"></script>
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.3/angular-ui-router.js"></script>
-
-		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular-animate.min.js"></script>
-		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular-aria.min.js"></script>
-		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular-messages.min.js"></script>
-		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
 
 		<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
-		<!--<link rel="stylesheet" href="{% static "app/css/leaflet.css" %}">-->
-		<link rel="stylesheet" href="{% static "app/css/custom.css" %}">
+		<link rel="stylesheet" href="{% static 'app/css/custom.css' %}">
 		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
 
-		<script type="text/javascript" src="{% static "app/components/app/app.js"%}"></script>
-		<script type="text/javascript" src="{% static "app/components/header/header.js"%}"></script>
-		<script type="text/javascript" src="{% static "app/components/sportparken_detail/sub-header/subheader.js"%}"></script>
-		<script type="text/javascript" src="{% static "app/components/sportparken_detail/sportparken_detail.js"%}"></script>
-		<script type="text/javascript" src="{% static "app/components/huurders/huurders.js"%}"></script>
-		<script type="text/javascript" src="{% static "app/components/services/sportparken-api.js"%}"></script>
-		<script type="text/javascript" src="{% static "app/components/services/leaflet.js"%}"></script>
+		<!--Third-party JS-->
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular.js"></script>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angular-ui-router/1.0.0-rc.1/angular-ui-router.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.6/ngStorage.min.js"></script>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular-animate.min.js"></script>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular-aria.min.js"></script>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular-messages.min.js"></script>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
 
-	</head>
+		<!-- Custom files -->
+		<script type="text/javascript" src="{% static 'app/components/app/app.js'%}"></script>
+		<script type="text/javascript" src="{% static 'app/components/header/header.js'%}"></script>
+		<script type="text/javascript" src="{% static 'app/components/sportparken_detail/sub-header/subheader.js'%}"></script>
+		<script type="text/javascript" src="{% static 'app/components/sportparken_detail/sportparken_detail.js'%}"></script>
+		<script type="text/javascript" src="{% static 'app/components/huurders/huurders.js'%}"></script>
+		<script type="text/javascript" src="{% static 'app/components/services/sportparken-api.js'%}"></script>
+		<script type="text/javascript" src="{% static 'app/components/services/leaflet.js'%}"></script>
 
-	<body ng-app="sportparken" ng-controller='mainCtrl as main'>
+		<!-- Auth -->
+        <script src="{% static 'app/components/auth/auth.module.js' %}"></script>
+        <script src="{% static 'app/components/auth/auth.service.js' %}"></script>
+        <script src="{% static 'app/components/auth/auth.controller.js' %}"></script>
+    </head>
+    <body ng-app="sportparken">
 		<sp-header>Header placeholder</sp-header>
 		<div class="content-wrapper">
 			<ui-view>UI view holder</ui-view>

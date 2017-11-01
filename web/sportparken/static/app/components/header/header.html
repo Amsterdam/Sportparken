@@ -1,13 +1,20 @@
-<header class="u-fixed">
+<header ng-controller="AuthController as vm" class="u-fixed">
     <div class="u-row"> 
         <div class="headerImg">
         <img src="sportparken/static/app/img/Logo-Gemeente-Amsterdam.png" alt="Amsterdam" id="logo">
          </div>
+        <div class="header-login">
+            <ul>
+                <li ui-sref-active="main-nav active" ><a href="#!/login" ng-hide="vm.isLoggedIn()">Log in</a></li>
+                <li ui-sref-active="main-nav active"><a href="" ng-click="vm.logout()" ng-show="vm.isLoggedIn()">Log out</a></li>
+            </ul>
+        </div>
     </div>
     <div class="u-row"> 
         <ul class="main-nav">
             <li ui-sref="sportparken" ui-sref-active="main-nav active">Sportparken</li>
-            <li ui-sref="huurders" ui-sref-active="main-nav active">Huurders</li>
+            <li ui-sref="huurders" ui-sref-active="main-nav active" ng-if="vm.isLoggedIn()">Huurders</li>
+            
         </ul>
     </div>
 </header>

@@ -1,0 +1,12 @@
+<div class="loginPage" ng-controller="AuthController as vm">
+    
+    <form ng-submit="vm.login(vm.user)" class="form-signin">
+        <div class="loginTitle">Login</div>            
+        <label>Gebruikersnaam</label>
+        <input ng-model="vm.user.username" type="text" class="form-control" placeholder="Username" name="username" required autofocus>
+        <label>Wachtwoord</label>
+        <input ng-model="vm.user.password" type="password" class="form-control" placeholder="Password" name="password" required>
+        <button type="submit">Login</button>
+    </form>
+    <div class="errorMessage">[[ vm.user.error ]]</div>
+</div>

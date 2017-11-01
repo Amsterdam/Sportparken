@@ -39,10 +39,19 @@ class Huurder(models.Model):
         db_table = 'huurders'
 
 
+class Soort(models.Model):
+    sid = models.AutoField(primary_key=True)
+    soort = models.CharField(max_length=128, blank=True)
+
+
 class SportparkObject(models.Model):
     tid = models.AutoField(primary_key=True)
     uid = models.CharField(max_length=20, null=True)
     name = models.CharField(max_length=64, null=True)
+    soort = models.ForeignKey(Soort,
+        related_name='soort_set',
+        on_delete=models.CASCADE, blank=True, null=True)
+    omschrijving = models.CharField(max_length=64, null=True)
     objectType = models.CharField(max_length=164, null=True)
     sportpark = models.ForeignKey(Sportpark,
         related_name='sportparkobject_set',
