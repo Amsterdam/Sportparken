@@ -37,12 +37,29 @@ sportparkenDetail.filter('objectNameFilter', function () {
             }
         })
 
+
+
+
 sportparkenDetail.filter('objectSliceFilter', function() {
+
             return function(arr, start, end) {
                 return arr.slice(start, end);
                 };
         });
 
+sportparkenDetail.filter('orderObjectBy', function() {
+            return function(items, field, reverse) {
+                var filtered = [];
+            angular.forEach(items, function(item) {
+                filtered.push(item);
+            });
+            filtered.sort(function (a, b) {
+                return (a[field] > b[field] ? 1 : -1);
+            });
+            if(reverse) filtered.reverse();
+                return filtered;
+        };
+    });
 
 (function () {
     'use strict';
@@ -272,6 +289,7 @@ sportparkenDetail.filter('objectSliceFilter', function() {
 
     objectOverzichtController.$inject = ['$scope', '$state', 'sportparkApi', '$stateParams' ];
 
+
     function objectOverzichtController ($scope, $state, sportparkApi, $stateParams ) {
         const self = this;   
         self.sportparkId = self.sportparkId || $stateParams.id
@@ -279,18 +297,19 @@ sportparkenDetail.filter('objectSliceFilter', function() {
         self.selectedGeometry = [];
         self.veldenList = [];
         self.sportparkData = {};
-        
+
         self.getVeldenList = function(spid) {
             sportparkApi.getSportparkObjectenWithSportpark(spid).then( function(response) {
                 self.veldenList = response.data;
                 // sort by tid
                 self.veldenList.sort(function(a,b) { return a.tid-b.tid });
-                // add auto increment
+                // add auto increment (not used at the moment)
                 for(i=0;i<self.veldenList.length;i++){
                     self.veldenList[i]['number'] = i+1;
-                } 
-            })         
+                }
+            })
         }
+
 
         self.getSportparkData = function(spid){
             sportparkApi.getSportpark(spid).then(function(response){
@@ -300,7 +319,8 @@ sportparkenDetail.filter('objectSliceFilter', function() {
 
         self.getVeldenList(self.sportparkId);
         self.getSportparkData(self.sportparkId); 
-         
+
+
         self.selectObject = function (obj) {
             var tmp = [];
 
@@ -345,7 +365,20 @@ sportparkenDetail.filter('objectSliceFilter', function() {
         self.selectedGeometry = [];
         self.veldenList = [];
         self.sportparkData = {};
-        
+        self.columns =[];
+        self.maxItems = 20;
+
+       //split items for each column in print
+        self.calculateColumns = function(data, itemsPerColumn) {
+             //var itemsPerColumn = Math.ceil(data.length / columnsNeeded);
+
+             for (var i=0; i< data.length; i += itemsPerColumn) {
+                  var col = {start:i, end: Math.min(i + itemsPerColumn, data.length) };
+                  self.columns.push(col);
+             }
+              return self.columns
+        }
+
         self.getVeldenList = function(spid) {
             sportparkApi.getSportparkObjectenWithSportpark(spid).then( function(response) {
                 self.veldenList = response.data;
@@ -355,7 +388,10 @@ sportparkenDetail.filter('objectSliceFilter', function() {
                 for(i=0;i<self.veldenList.length;i++){
                     self.veldenList[i]['number'] = i+1;
                 }
-               return self.veldenList
+
+                self.calculateColumns(self.veldenList, self.maxItems);
+
+                return self.veldenList
             })
         }
         
@@ -368,19 +404,6 @@ sportparkenDetail.filter('objectSliceFilter', function() {
         self.getVeldenList(self.sportparkId);
         self.getSportparkData(self.sportparkId); 
 
-        self.columns = [];
-        self.columnCount = 2;
-  
-        self.calculateColumns = function(arr) {
-            var itemsPerColumn = Math.ceil(arr.length / self.columnCount);
-            for (var i=0; i<arr.length; i += itemsPerColumn) {
-                var col = {start:i, end: Math.min(i + itemsPerColumn, arr.length) };
-                self.columns.push(col);
-            }
-            //console.log(self.columns);
-        }
-  
-        self.calculateColumns(self.veldenList);
 
         self.selectObject = function (obj) {
             var tmp = [];
