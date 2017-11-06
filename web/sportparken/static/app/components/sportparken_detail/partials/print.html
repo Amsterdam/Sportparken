@@ -11,11 +11,13 @@
  </div>
 <div class="print">  
         <div class="n-col-2">
-            <div><h1>{{ooCtrl.sportparkData.name}}</h1></div>
-                 <h3>Velden</h3>
-                <div>
-               <ul id="objectList" ng-repeat="column in ooCtrl.columns">
-                    {{ooCtrl.columns}}
+            <div>
+                <h1>{{ooCtrl.sportparkData.name}}</h1>
+            </div>     
+            <div>
+                <h3>Velden</h3>
+                <ul id="objectList" ng-repeat="column in ooCtrl.columns  ">
+                    <!--{{ooCtrl.columns}}-->
                    <li class="object-card"
                      ng-repeat="veld in ooCtrl.veldenList | objectTypeFilter:'veld' | objectNameFilter:query | orderBy:'name' | objectSliceFilter:column.start:column.end"
                      ng-class="{objectCardActive:ooCtrl.selectedObject == veld}"
@@ -32,9 +34,10 @@
                     </div>
                     </li>
                 </ul>
-                </div>
-            <ul id="objectList" ng-repeat="column in ooCtrl.columns">
-                    <h3>Panden</h3>
+            </div>
+            <div>
+                <h3>Panden</h3>
+                <ul id="objectList" ng-repeat="column in ooCtrl.columns">    
                   <li class="object-card"
                      ng-repeat="veld in ooCtrl.veldenList | objectTypeFilter:'pand' | objectNameFilter:query | orderBy:'name'| objectSliceFilter:column.start:column.end"
                      ng-class="{objectCardActive:ooCtrl.selectedObject == pand}"
@@ -42,7 +45,8 @@
                     <div class="headerText"
                          ng-click="ooCtrl.selectObject(veld)">[[veld.name]]</div>
                     </li>
-            </ul>
+                </ul>
+            </div>
         </div>
     </div>
 </div>

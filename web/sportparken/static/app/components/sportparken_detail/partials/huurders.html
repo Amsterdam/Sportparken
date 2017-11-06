@@ -8,7 +8,7 @@
                  ng-repeat="huurder in huurderoverzichtctrl.huurdersList | filter:query"
                  ng-class="{objectCardActive:huurderoverzichtctrl.selectedHuurders.indexOf(huurder) !== -1}"
                  ng-init="huurder.contact_expanded = false;">
-
+                <div class="subheaderText">[[huurder.sport]]</div>
                 <div class="headerText" ng-click="huurderoverzichtctrl.toggle(huurder)">[[huurder.name]]</div>
                 <p>Velden: <span ng-repeat="obj in huurder.objecten | orderBy:'tid' | filter:obj.objectType='veld'">[[obj.name]][[$last ? '' : ', ']] </span></p>
                 <p>Panden: <span ng-repeat="obj in huurder.objecten | orderBy:'tid' | filter:obj.objectType='pand'">[[obj.name]][[$last ? '' : ', ']] </span></p>

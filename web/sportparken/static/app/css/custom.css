@@ -311,6 +311,7 @@
     #objectList {
         height: 80vh;
     }
+
     .print #objectList {
         width: 42mm;
         height: 100%;
@@ -319,6 +320,10 @@
  
         float:left;
     }
+
+    .object-metadata {
+        font-size: 10px;
+        }
 
     .number {
         /*font-family: verdana, arial, sans-serif; */

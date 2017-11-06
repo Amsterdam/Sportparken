@@ -14,14 +14,18 @@
     				>
                     <!--<div class="autoNumber">#{{$index + 1}}[[veld.tid]]</div>-->
                     <div class="headerText"
-    						ng-click="ooCtrl.selectObject(veld)">[[veld.name]]</div>
-    				<div class="ondergrond">[[veld.ondergrond_type]]</div>
+    						ng-click="ooCtrl.selectObject(veld)">Veld [[veld.name]] <div class="soort">[[veld.soort]]</div></div>
+					<div class="ondergrond">[[veld.ondergrond_type]]</div>
+					</br>
+					<div ng-repeat="huurder in veld.huurder"><p>[[huurder.sport]]</p></div>
+					<div class="omschrijving">[[veld.omschrijving]]</div>
     				<div class="subHeaderText">
-    					<ul>
-    						<li ng-repeat="huurder in veld.huurders | orderBy:'name' ">[[huurder.name]]</li>
+    					<ul ng-repeat="huurder in veld.huurders | orderBy:'name' ">
+							[[huurder.sport]]
+							<li>[[huurder.name]]</li>
     					</ul>
     				</div>
-                    
+                    <div class="omschrijving">[[veld.omschrijving]]</div>
                 </div>
 
     			<div><p>Panden</p></div>
@@ -37,8 +41,10 @@
                     </div>
                     <div ng-class="{dataContent:true, activeContent:veld.huurders_expanded}">
                     -->
-    				    <ul>
-    						<li ng-repeat="huurder in veld.huurders | orderBy:'name' ">   [[huurder.name]]
+    				    <ul ng-repeat="huurder in veld.huurders | orderBy:'name' ">
+							[[huurder.sport]]
+							<li >
+								[[huurder.name]]	
                             </li>
     					</ul>
     				</div>

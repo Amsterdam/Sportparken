@@ -445,6 +445,7 @@ sportparkenDetail.filter('orderObjectBy', function() {
         self.selectedGeometry = [];
         self.veldenList = [];
         self.ondergrondList = [];
+        self.soortList = [];
         self.user_selectedObject = {};
         self.org_selectedObject = {};
         self.user_objectData = []; // holds the geometry and onther information each object is made up off
@@ -459,6 +460,14 @@ sportparkenDetail.filter('orderObjectBy', function() {
         }
 
         self.getOndergrondenList();
+
+        self.getSoortList = function() {
+            sportparkApi.getSoorten().then( function(response) {
+                self.soortList = response.data;    
+            })
+        }
+
+        self.getSoortList();
 
         self.getVeldenList = function(spid) {
             sportparkApi.getSportparkObjectenWithSportpark(spid).then( function(response) {

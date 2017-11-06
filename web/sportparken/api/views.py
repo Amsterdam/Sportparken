@@ -13,21 +13,23 @@ from sportparken.dataset.models import (
         SportparkObjectGeometry,
         SportparkObject,
         SportparkGeometry,
-        Ondergrond
+        Ondergrond,
+        Soort,
         )
+
 from sportparken.api.serializers import (
         HuurderListSerializer,
         HuurderDetailSerializer,
         RelationListSerializer,
-        SportparkListSerializer,
         SportparkDetailSerializer,
         SportparkObjectListSerializer,
         SportparkObjectDetailSerializer,
-        SportparkGeomDetailSerializer,
+        SportparkGeometryDetailSerializer,
         SportparkObjectGeomDetailSerializer,
         RelationPostRemoveSerializer,
         UserLoginSerializer,
-        OndergrondListSerializer
+        OndergrondSerializer,
+        SoortSerializer,
 )
 
 #User = get_user_model()
@@ -50,12 +52,7 @@ class HuurderDetailApi(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = HuurderDetailSerializer
 
 
-class SportparkListApi(generics.ListAPIView):
-    queryset = Sportpark.objects.all()
-    serializer_class = SportparkListSerializer
-
-
-class SportparkDetailApi(generics.RetrieveAPIView):
+class SportparkDetailApi(viewsets.ModelViewSet):
     queryset = Sportpark.objects.all()
     serializer_class = SportparkDetailSerializer
 
@@ -77,17 +74,20 @@ class SportparkObjectDetailApi(generics.RetrieveUpdateAPIView):
     serializer_class = SportparkObjectDetailSerializer
 
 
-class SportparkGeomDetailApi(generics.RetrieveAPIView):
+class SportparkGeometryDetailApi(viewsets.ModelViewSet):
     queryset = SportparkGeometry.objects.all()
-    serializer_class = SportparkGeomDetailSerializer
+    serializer_class = SportparkGeometryDetailSerializer
 
-class OndergrondListApi(generics.ListAPIView):
+
+class OndergrondDetailApi(viewsets.ModelViewSet):
     queryset = Ondergrond.objects.all()
-    serializer_class = OndergrondListSerializer
+    serializer_class = OndergrondSerializer
 
-# class SportparkObjectGeomDetailApi(generics.RetrieveAPIView):
-#     queryset = SportparkObjectGeometry.objects.all()
-#     serializer_class = SportparkObjectGeomDetailSerializer
+
+class SoortDetailApi(viewsets.ModelViewSet):
+    queryset = Soort.objects.all()
+    serializer_class = SoortSerializer
+
 
 class SportparkObjectGeomDetailApi(APIView):
 	def get_object(self, pk):

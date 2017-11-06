@@ -26,6 +26,7 @@
 			getSportparkObjectenWithSportpark: getSportparkObjectenWithSportpark,
 			getSportparkGeometry:getSportparkGeometry,
 			getSoort: getSoort,
+			getSoorten: getSoorten,
 			getSportparkObject:getSportparkObject,
 			getFromUrl:getFromUrl,
 			getHuurders:getHuurders,

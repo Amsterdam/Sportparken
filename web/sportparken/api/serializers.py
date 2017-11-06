@@ -1,15 +1,17 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 from rest_framework import serializers
+from rest_framework_gis.serializers import GeoModelSerializer
 
 from sportparken.dataset.models import (
         Huurder,
         HuurderObjectRelation,
         Sportpark,
-        SportparkObjectGeometry,
-        SportparkObject,
         SportparkGeometry,
-        Ondergrond
+        SportparkObject,
+        SportparkObjectGeometry,
+        Ondergrond,
+		Soort,
         )
 
 #User = get_user_model()
@@ -60,44 +62,36 @@ class HuurderDetailSerializer(serializers.ModelSerializer):
 		]
 
 
-class SportparkGeomListSerializer(serializers.ModelSerializer):
-	url = serializers.HyperlinkedIdentityField( view_name = 'api:sportparkGeom-detail')
+class SportparkGeometryDetailSerializer(GeoModelSerializer):
+	url = serializers.HyperlinkedIdentityField( view_name = 'api:sportparkgeometry-detail')
 
 	class Meta:
 		model = SportparkGeometry
-		fields = ( 
+		geo_field = 'geometry'
+
+		#fields = '__all__'
+		fields = [
 			'tid',
 			'url',
+			'bron',
 			'geometry',
-			)
-
-
-class SportparkListSerializer(serializers.ModelSerializer):
-	url = serializers.HyperlinkedIdentityField( view_name = 'api:sportpark-detail')
-
-	geometry = SportparkGeomListSerializer(source='sportparkgeometry_set', many=True)
-	
-	class Meta:
-		model = Sportpark
-		fields = (
-			'url',
-			'tid',
-			'name',
-			'geometry'
-		)
+		]
 
 
 class SportparkDetailSerializer(serializers.ModelSerializer):
+	url = serializers.HyperlinkedIdentityField( view_name = 'api:sportpark-detail')
 
-	geometry = SportparkGeomListSerializer(source='sportparkgeometry_set', many=True)
-
+	geometry = SportparkGeometryDetailSerializer(source='sportparkgeometry_set', many=True)
+	
 	class Meta:
 		model = Sportpark
 		fields = [
 			'tid',
+			'url',
 			'name',
 			'geometry'
 		]
+
 
 
 class SportparkObjectListSerializer(serializers.ModelSerializer):
@@ -127,7 +121,8 @@ class SportparkObjectListSerializer(serializers.ModelSerializer):
 			'objectType',
 			'ondergrond_type',
 			'huurders',
-			'verhuurprijs',
+			'soort',
+			'omschrijving',
 			'geometry',
 
 		]
@@ -148,17 +143,11 @@ class SportparkObjectDetailSerializer(serializers.ModelSerializer):
 			'name',
 			'objectType',
 			'ondergrond_type',
-			'verhuurprijs',
+			'soort',
+			'omschrijving',
 			'geometry',
 		]
 
-
-
-
-class SportparkGeomDetailSerializer(serializers.ModelSerializer):
-	class Meta:
-		model = SportparkGeometry
-		fields = '__all__'
 
 
 class SportparkObjectGeomListSerializer(serializers.ModelSerializer):
@@ -166,11 +155,7 @@ class SportparkObjectGeomListSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = SportparkObjectGeometry
-		fields = [ 
-			'tid',
-			'url',
-			'geometry',
-			]
+		fields = '__all__'
 
 
 class SportparkObjectGeomDetailSerializer(serializers.ModelSerializer):
@@ -189,6 +174,7 @@ class SportparkObjectGeomDetailSerializer(serializers.ModelSerializer):
 			'bron',
 			'geometry',
 		]
+
 
 
 class SportparkObjectGeomDetailEditSerializer(serializers.ModelSerializer):
@@ -231,26 +217,26 @@ class RelationPostRemoveSerializer(serializers.ModelSerializer):
 		model = HuurderObjectRelation
 		fields = '__all__'
 
-class OndergrondListSerializer(serializers.ModelSerializer):
+class OndergrondSerializer(serializers.ModelSerializer):
 	url = serializers.HyperlinkedIdentityField( view_name = 'api:ondergrond-detail')
-
-	def get_ondergrond(self, obj):
-		vo = obj.ondergrond_type
-		request = self.context.get('request')
-		return OndergrondDetailSerializer(vo, many=False, context={'request':request}).data
-
-
-	def get_ondergronden(self, obj):
-		request = self.context.get('request')
-		qs = obj.get_ondergrond_set()
-		return OndergrondListSerializer(qs, many=True, context={'request':request}).data
-
 
 	class Meta:
 		model = Ondergrond
 		fields = [
 			'tid',
 			'name',
+			'url'
+		]
+
+
+class SoortSerializer(serializers.ModelSerializer):
+	url = serializers.HyperlinkedIdentityField( view_name = 'api:soort-detail')
+
+	class Meta:
+		model = Soort
+		fields = [
+			'sid',
+			'soort',
 			'url'
 		]
 
