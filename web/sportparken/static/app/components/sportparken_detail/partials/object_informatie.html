@@ -1,17 +1,40 @@
 
 <div class="n-col-2">
             <div><input type="text" id="query" class="search_input" ng-model="query" placeholder="Zoeken" autofocus/></div>
+        <div><p>Velden</p></div>
         <div id="objectList" class="scroll">
 <!--            <pre>[[ooCtrl.selectedObject | json]]</pre>-->
             <div class="object-card"
 				 ng-class="{objectCardActive:oeCtrl.org_selectedObject == veld}"
-				 ng-repeat="veld in oeCtrl.veldenList | objectNameFilter:query | orderBy: 'name'"
+				 ng-repeat="veld in oeCtrl.veldenList | objectTypeFilter:'veld' | objectNameFilter:query | orderBy: 'name'"
 				 ng-init="veld.huurders_expanded = false;">
                 <div class="headerText"
-						ng-click="oeCtrl.selectObject(veld)">[[veld.name]]</div>
+						ng-click="oeCtrl.selectObject(veld)">Veld [[veld.name]]</div>
+                <div><h4>Ondergrond</h4></div>
+                <div class="object-metadata"><p>[[veld.ondergrond_type]]</p></div>
+                <div><h4>Omschrijving</h4></div>
+                <div class="object-metadata"><p>[[veld.omschrijving]]</p></div>
+                <div><h4>Brongegevens</h4></div>
+                <div class="object-metadata" ng-repeat="geom in veld.geometry">
+                    <div ><p>Bron: [[geom.bron]]</p></div>
+                    <div><p>BGT ID: [[geom.lokaalid]]</p></div>
+                    <div><p>BAG ID:[[geom.bagpndid]]</p></div>
+                    <div><p>Eigen ID:[[geom.veld_id]]</p></div>
+                </div>
+            <!--    <pre>[[ooCtrl.selectedObject | json]]</pre>-->
+            </div>
+            <div><p>Panden</p></div>
+            <div class="object-card"
+                 ng-class="{objectCardActive:oeCtrl.org_selectedObject == veld}"
+                 ng-repeat="veld in oeCtrl.veldenList | objectTypeFilter:'pand' | objectNameFilter:query | orderBy: 'name'"
+                 ng-init="veld.huurders_expanded = false;">
+                <div class="headerText"
+                        ng-click="oeCtrl.selectObject(veld)">Pand [[veld.name]]</div>
+                <div><h4>Ondergrond</h4></div>
                 <div><p>[[veld.ondergrond_type]]</p></div>
+                <div><h4>Omschrijving</h4></div>
                 <div><p>[[veld.omschrijving]]</p></div>
-                <div></br></div>
+                <div><h4>Brongegevens</h4></div>
                 <div class="object-metadata" ng-repeat="geom in veld.geometry">
                     <div ><p>Bron: [[geom.bron]]</p></div>
                     <div><p>BGT ID: [[geom.lokaalid]]</p></div>

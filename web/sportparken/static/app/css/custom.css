@@ -155,11 +155,11 @@
     /*    display: inline-block;*/
     }
     .print .n-col-2 {
-        width: 100%;
+        width: 50%;
         margin-bottom: 0px;
         margin-right: 0px;
         margin-top: 10px;
-        float: left;
+        
     }
 
     .n-col-4 {
@@ -405,6 +405,7 @@
         float:left;
         text-align:right;
     }
+
     h3 {
         font-weight: bold;
         font-size: 1.5em;
@@ -412,9 +413,16 @@
         margin-top:20px;
     }
 
-        .headerText, h2 {
+    .headerText, h2 {
         font-weight: bold;
         font-size: 1.0em;
+    }
+
+    h4 {
+        font-weight: bold;
+        font-size: 0.8em;
+        margin-bottom: 5px;
+        margin-top: 10px;
     }
 
      .header-login {

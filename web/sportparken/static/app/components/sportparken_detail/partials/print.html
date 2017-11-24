@@ -10,43 +10,40 @@
         </div>
  </div>
 <div class="print">  
-        <div class="n-col-2">
-            <div>
-                <h1>{{ooCtrl.sportparkData.name}}</h1>
-            </div>     
-            <div>
-                <h3>Velden</h3>
-                <ul id="objectList" ng-repeat="column in ooCtrl.columns  ">
-                    <!--{{ooCtrl.columns}}-->
-                   <li class="object-card"
-                     ng-repeat="veld in ooCtrl.veldenList | objectTypeFilter:'veld' | objectNameFilter:query | orderBy:'name' | objectSliceFilter:column.start:column.end"
-                     ng-class="{objectCardActive:ooCtrl.selectedObject == veld}"
-                    >
-                    <!--<div class="autoNumber">#{{$index + 1}}[[veld.tid]]</div>-->
-                
-                        <div class="headerText" id="leftCol"
-                            ng-click="ooCtrl.selectObject(veld)">[[veld.name]]</div>
-                        <div class="ondergrond">[[veld.ondergrond_type]]</div>
-                    <div class="subHeaderText">
-                        <ul>
-                            <li ng-repeat="huurder in veld.huurders | orderBy:'name' ">[[huurder.name]]</li>
-                        </ul>
-                    </div>
-                    </li>
+    <div>
+        <h1>{{ooCtrl.sportparkData.name}}</h1>
+    </div>     
+    <div class="n-col-2">
+        <h3>Velden</h3>
+        <ul id="objectList" ng-repeat="column in ooCtrl.columns  ">
+            <!--{{ooCtrl.columns}}-->
+           <li class="object-card"
+             ng-repeat="veld in ooCtrl.veldenList | objectTypeFilter:'veld' | objectNameFilter:query | orderBy:'name' | objectSliceFilter:column.start:column.end"
+             ng-class="{objectCardActive:ooCtrl.selectedObject == veld}"
+            >
+            <!--<div class="autoNumber">#{{$index + 1}}[[veld.tid]]</div>-->
+        
+                <div class="headerText" id="leftCol"
+                    ng-click="ooCtrl.selectObject(veld)">[[veld.name]]</div>
+                <div class="ondergrond">[[veld.ondergrond_type]]</div>
+            <div class="subHeaderText">
+                <ul>
+                    <li ng-repeat="huurder in veld.huurders | orderBy:'name' ">[[huurder.name]]</li>
                 </ul>
             </div>
-            <div>
-                <h3>Panden</h3>
-                <ul id="objectList" ng-repeat="column in ooCtrl.columns">    
-                  <li class="object-card"
-                     ng-repeat="veld in ooCtrl.veldenList | objectTypeFilter:'pand' | objectNameFilter:query | orderBy:'name'| objectSliceFilter:column.start:column.end"
-                     ng-class="{objectCardActive:ooCtrl.selectedObject == pand}"
-                     ng-init="veld.huurders_expanded = false;">
-                    <div class="headerText"
-                         ng-click="ooCtrl.selectObject(veld)">[[veld.name]]</div>
-                    </li>
-                </ul>
-            </div>
-        </div>
+            </li>
+        </ul>
+    </div>
+    <div class="n-col-2">
+        <h3>Panden</h3>
+        <ul id="objectList" ng-repeat="column in ooCtrl.columns">    
+          <li class="object-card"
+             ng-repeat="veld in ooCtrl.veldenList | objectTypeFilter:'pand' | objectNameFilter:query | orderBy:'name'| objectSliceFilter:column.start:column.end"
+             ng-class="{objectCardActive:ooCtrl.selectedObject == pand}"
+             ng-init="veld.huurders_expanded = false;">
+            <div class="headerText"
+                 ng-click="ooCtrl.selectObject(veld)">[[veld.name]]</div>
+            </li>
+        </ul>
     </div>
 </div>
