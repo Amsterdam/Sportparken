@@ -28,7 +28,7 @@ USER datapunt
 
 RUN export DJANGO_SETTINGS_MODULE=sportparken.settings
 
-#RUN python manage.py collectstatic --noinput
+RUN python manage.py collectstatic --noinput
 
 CMD uwsgi
 
