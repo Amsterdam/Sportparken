@@ -88,7 +88,7 @@ def main():
     from django.contrib.gis.db.models.functions import AsGML
 
     # load 4 new sportparken in 2 models
-    data = readJson('sportparken/update/aanvullingsportterreinen.json')
+    data = readJson('update/aanvullingsportterreinen.json')
     apiGeometry2pg(data, Sportpark, SportparkGeometry)
 
     # Set variables for WFS request
@@ -157,7 +157,7 @@ def main():
                                         lokaalid=item["properties"]["identificatie_lokaalid"])
                 spObjectGeometry.save()
                 # Load K10 sportparken Aad when sportpark id matches
-        fileName = 'sportparken/update/k10plus_2016_sport_aanvulling.geojson'
+        fileName = 'update/k10plus_2016_sport_aanvulling.geojson'
         dataK10 = readJson(fileName)
         for item in dataK10["features"]:
             #print(item)
