@@ -10,6 +10,8 @@ from .views import (
     SportparkObjectDetailApi,
     SportparkGeometryDetailApi,
     SportparkObjectGeomDetailApi,
+    SportparkenObjectGeojsonApi,
+    SportparkenGeojsonApi,
     SoortDetailApi,
     OndergrondDetailApi,
     RelatieListApi,
@@ -22,6 +24,8 @@ router = routers.DefaultRouter()
 router.register(r'users', UserLoginApi)
 router.register(prefix='sportpark', viewset=SportparkDetailApi)
 router.register(prefix='sportparkgeometry', viewset=SportparkGeometryDetailApi)
+router.register(prefix='sportparkgeojson', viewset=SportparkenGeojsonApi, base_name='sportparkgeojson')
+router.register(prefix='sportparkobjectgeojson', viewset=SportparkenObjectGeojsonApi, base_name='sportparkobjectgeojson')
 router.register(prefix='soort', viewset=SoortDetailApi)
 router.register(prefix='ondergrond', viewset=OndergrondDetailApi)
 
@@ -39,11 +43,9 @@ urlpatterns = [
     url(r'^sportparkobject/(?P<pk>[0-9]+)$',
         SportparkObjectDetailApi.as_view(),
         name='sportparkObject-detail'),
-
     url(r'^sportparkobjectgeometry/(?P<pk>[0-9]+)$',
         SportparkObjectGeomDetailApi.as_view(),
         name='sportparkObjectGeom-detail'),
-
     url(r'^relation/$',
         RelatieListApi.as_view(), name='relation-list'),
     url(r'^relation/(?P<pk>[0-9]+)$',

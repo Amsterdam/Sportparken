@@ -7,6 +7,7 @@ from sportparken.dataset.models import (
     SportparkGeometry,
     SportparkObjectGeometry,
 	Ondergrond,
+    Soort
     )
 
 
@@ -27,6 +28,15 @@ class HuurderAdmin(admin.ModelAdmin):
         model = Huurder
 
 admin.site.register(Huurder, HuurderAdmin )
+
+
+class SoortAdmin(admin.ModelAdmin):
+    list_display = ["sid", "soort",]
+
+    class Meta:
+        model = Soort
+
+admin.site.register(Soort, SoortAdmin )
 
 
 class SportparkObjectAdmin(admin.ModelAdmin):

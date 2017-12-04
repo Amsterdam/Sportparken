@@ -43,6 +43,9 @@ class Soort(models.Model):
     sid = models.AutoField(primary_key=True)
     soort = models.CharField(max_length=128, blank=True)
 
+    def __str__(self):
+        return '{}'.format(self.soort)
+
 
 class SportparkObject(models.Model):
     tid = models.AutoField(primary_key=True)

@@ -5,6 +5,8 @@ from rest_framework import generics, viewsets
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from django.core.serializers import serialize
+from django.shortcuts import get_object_or_404
 
 from sportparken.dataset.models import (
         Huurder,
@@ -26,6 +28,8 @@ from sportparken.api.serializers import (
         SportparkObjectDetailSerializer,
         SportparkGeometryDetailSerializer,
         SportparkObjectGeomDetailSerializer,
+        SportparkObjectListGeoJsonSerializer,
+        SportparkDetailGeoJsonSerializer,
         RelationPostRemoveSerializer,
         UserLoginSerializer,
         OndergrondSerializer,
@@ -69,6 +73,20 @@ class SportparkObjectListApi(generics.ListAPIView):
         return queryset
 
 
+class SportparkenObjectGeojsonApi(viewsets.ModelViewSet):
+    """
+        All sportpark objects of a sportpark (sp=1) of the City of Amsterdam as geojson format.
+    """
+    serializer_class = SportparkObjectListGeoJsonSerializer
+    
+    def get_queryset(self):
+        queryset = SportparkObject.objects.all()
+        spid = self.request.query_params.get('sp', None)
+        if spid is not None:
+            queryset = queryset.filter(sportpark__tid=spid)
+        return queryset
+
+
 class SportparkObjectDetailApi(generics.RetrieveUpdateAPIView):
     queryset = SportparkObject.objects.all()
     serializer_class = SportparkObjectDetailSerializer
@@ -87,6 +105,34 @@ class OndergrondDetailApi(viewsets.ModelViewSet):
 class SoortDetailApi(viewsets.ModelViewSet):
     queryset = Soort.objects.all()
     serializer_class = SoortSerializer
+
+class SportparkenDetail(viewsets.ModelViewSet):
+    queryset = SportparkGeometry.objects.all()
+    serializer_class = SportparkDetailSerializer
+
+class SportparkenGeojsonApi(viewsets.ModelViewSet):
+    """
+        All sportpark area's of the City of Amsterdam as geojson format.
+    """
+    
+    #serializer_class = SportparkGeoJsonSerializer
+    #def list(self, request):
+    queryset = SportparkGeometry.objects.all()
+    serializer_class = SportparkDetailGeoJsonSerializer
+    #return Response(serializer.data)
+    #queryset =SportparkGeometry.objects.all()
+    #serializer_class = SportparkListGeoJsonSerializer
+    #def get_object(self, pk):
+    #    try:
+    #        return SportparkGeometry.objects.get(pk=pk)
+    #   except SportparkGeometry.DoesNotExist:
+    #        raise Http404
+
+    #def detail(self, request, pk=None):
+    #    queryset = SportparkGeometry.objects.get(pk=pk)
+    #    spObject = self.get_object(pk)
+    #    serializer = SportparkDetailGeoJsonSerializer(spObject, context={'request': request})
+    #    return Response(serializer.data)
 
 
 class SportparkObjectGeomDetailApi(APIView):
