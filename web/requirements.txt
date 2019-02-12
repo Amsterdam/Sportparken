@@ -1,10 +1,10 @@
 appdirs==1.4.3
-Django==1.11.15
-django-cors-headers==2.0.2
-djangorestframework==3.5.4
-djangorestframework-gis==0.11
+Django==1.11.18
+django-cors-headers==2.1.0
+djangorestframework==3.9.1
+djangorestframework-gis==0.14
 packaging==16.8
-psycopg2==2.7.1
+psycopg2==2.7.7
 pyparsing==2.2.0
 pyproj==1.9.5.1
 requests==2.20.0
