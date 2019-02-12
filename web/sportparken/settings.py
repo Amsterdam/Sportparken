@@ -25,6 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 insecure_secret = 'insecure'
 SECRET_KEY = os.getenv('SECRET_KEY', insecure_secret)
+# If the SECRET_KEY != insecure_secret, DEBUG returns False
 DEBUG = SECRET_KEY == insecure_secret
 
 ALLOWED_HOSTS = ['*']
