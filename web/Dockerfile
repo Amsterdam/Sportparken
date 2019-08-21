@@ -23,7 +23,7 @@ COPY . /app/
 #COPY .jenkins/import /.jenkins-import/
 #COPY .jenkins/docker-migrate.sh /app/
 
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install -r requirements.txt
 USER datapunt
 
 RUN export DJANGO_SETTINGS_MODULE=sportparken.settings
