@@ -1,7 +1,7 @@
 appdirs==1.4.3
 certifi==2017.11.5
 chardet==3.0.4
-Django==1.11.19
+Django==1.11.23
 django-cors-headers==2.1.0
 djangorestframework==3.9.1
 djangorestframework-gis==0.14
